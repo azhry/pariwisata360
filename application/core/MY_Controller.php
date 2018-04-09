@@ -62,11 +62,6 @@ class MY_Controller extends CI_Controller
 		echo '</pre>';
 	}
 
-	protected function generate_id()
-	{
-		return mt_rand();
-	}
-
 	protected function go_back( $index ) 
 	{
 		echo '<script type="text/javascript">window.history.go(' . $index . ');</script>'; 
@@ -82,5 +77,9 @@ class MY_Controller extends CI_Controller
 			exit;
 
 		}
+	}
+
+	protected function __generate_random_id() {
+		return mt_rand();
 	}
 }
