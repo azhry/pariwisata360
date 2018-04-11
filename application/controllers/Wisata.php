@@ -11,11 +11,9 @@ class Wisata extends MY_Controller {
 
 	public function index() {
 
-		$this->load->model( 'pengguna_m' );
-		$this->data['pengguna']	= $this->pengguna_m->get();
 		$this->data['title']	= 'Tempat Wisata';
-		$this->data['content']	= 'admin/wisata_data';
-		$this->template( $this->data, 'admin' );
+		$this->data['content']	= 'wisata/home';
+		$this->template( $this->data, 'wisata' );
 
 	}
 

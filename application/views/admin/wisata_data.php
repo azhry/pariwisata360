@@ -27,11 +27,8 @@
                                         <th>ID Wisata</th>
                                         <th>Nama Wisata</th>
                                         <th>Deskripsi</th>
-                                        <th>Foto</th>
                                         <th>Latitude</th>
                                         <th>Longitude</th>
-                                        <th>Created_at</th>
-                                        <th>Updated_at</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,11 +38,8 @@
                                             <td><?= $row->id_wisata ?></td>
                                             <td><?= $row->nama_wisata ?></td>
                                             <td><?= $row->deskripsi?></td>
-                                            <td><?= $row->foto ?></td>
                                             <td><?= $row->latitude ?></td>
                                             <td><?= $row->longitude ?></td>
-                                            <td><?= $row->created_at ?></td>
-                                            <td><?= $row->updated_at ?></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="<?= base_url( 'admin/edit-wisata/' . $row->id_wisata ) ?>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>

@@ -139,16 +139,14 @@ class Admin extends MY_Controller {
 
 			$this->load->model( 'wisata_m' );
 			$this->data['wisata'] = [
-				'id_wisata'	=> $this->__generate_random_id(),
+				'id_wisata'		=> $this->__generate_random_id(),
 				'nama_wisata'	=> $this->POST( 'nama_wisata' ),
-				'deskripsi'			=> $this->POST( 'deskripsi' ),
-				'foto'		=> md5( $this->POST( 'foto' ) ),
-				'latitude'			=> $this->POST( 'latitude' ),
-				'longitude'	=> $this->POST( 'longitude' ),
-				'created_at'	=> $this->POST( 'created_at' ),
-				'updated_at'	=> $this->POST( 'updated_at' )
+				'deskripsi'		=> $this->POST( 'deskripsi' ),
+				'latitude'		=> $this->POST( 'latitude' ),
+				'longitude'		=> $this->POST( 'longitude' ),
 			];
 			$this->wisata_m->insert( $this->data['wisata'] );
+			$this->upload( $this->db->insert_id(), '/assets/img/wisata', 'berkas' );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
 			redirect( 'admin/data-wisata' );
 			exit;
@@ -175,17 +173,14 @@ class Admin extends MY_Controller {
 		if ( $this->POST( 'edit' ) ) {
 
 			$this->data['wisata']	= [
-				'id_wisata'	=> $this->POST( 'id_wisata' ),
-				'nama_wisata'			=> $this->POST( 'nama_wisata' ),
-				'deskripsi'			=> $this->POST( 'deskripsi' ),
-				'foto'	=> $this->POST( 'foto' ),
-				'latitude'	=> $this->POST( 'latitude' ),
-				'longitude'	=> $this->POST( 'longitude' ),
+				'nama_wisata'	=> $this->POST( 'nama_wisata' ),
+				'deskripsi'		=> $this->POST( 'deskripsi' ),
+				'latitude'		=> $this->POST( 'latitude' ),
+				'longitude'		=> $this->POST( 'longitude' ),
 				'updated_at'	=> date( 'Y-m-d H:i:s' )
 			];
-			$password = $this->POST( 'password' );
-			if ( !empty( $password ) ) $this->data['pengguna']['password'] = md5( $password );
 			$this->wisata_m->update( $this->data['id_wisata'], $this->data['wisata'] );
+			$this->upload( $this->data['id_wisata'], '/assets/img/wisata', 'berkas' );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
 			redirect( 'admin/edit-wisata/' . $this->data['id_wisata'] );
 			exit;
@@ -203,23 +198,23 @@ class Admin extends MY_Controller {
 	}
 
 	//Upload
-	public function aksi_upload(){
-		$config['upload_path']          = './gambar/';
-		$config['allowed_types']        = 'gif|jpg|png';
-		$config['max_size']             = 200;
-		$config['max_width']            = 1024;
-		$config['max_height']           = 768;
+	// public function aksi_upload(){
+	// 	$config['upload_path']          = './gambar/';
+	// 	$config['allowed_types']        = 'gif|jpg|png';
+	// 	$config['max_size']             = 200;
+	// 	$config['max_width']            = 1024;
+	// 	$config['max_height']           = 768;
  
-		$this->load->library('upload', $config);
+	// 	$this->load->library('upload', $config);
  
-		if ( ! $this->upload->do_upload('berkas')){
-			$error = array('error' => $this->upload->display_errors());
-			$this->load->view('wisata_tambah', $error);
-		}else{
-			$data = array('upload_data' => $this->upload->data());
-			$this->load->view('wisata_tambah_sukses', $data);
-		}
-	}
+	// 	if ( ! $this->upload->do_upload('berkas')){
+	// 		$error = array('error' => $this->upload->display_errors());
+	// 		$this->load->view('wisata_tambah', $error);
+	// 	}else{
+	// 		$data = array('upload_data' => $this->upload->data());
+	// 		$this->load->view('wisata_tambah_sukses', $data);
+	// 	}
+	// }
 
 	public function data_hak_akses() {
 

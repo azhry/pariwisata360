@@ -33,7 +33,6 @@
                             </div>
 
                             <div class="form-group">
-                                <?php echo form_open_multipart('upload/aksi_upload');?>
                                 <label for="foto">Foto</label>
                                 <input type="file" name="berkas" class="form-control" required>
                             </div>
@@ -46,16 +45,6 @@
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
                                 <input type="text" name="longitude" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="created_at">Created_at</label>
-                                <input type="date" name="created_at" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="updated_at">Updated_at</label>
-                                <input type="date" name="updated_at" class="form-control" required>
                             </div>
 
 

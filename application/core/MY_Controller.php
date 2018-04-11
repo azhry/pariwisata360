@@ -39,9 +39,9 @@ class MY_Controller extends CI_Controller
 
 	protected function upload($id, $directory, $tag_name = 'userfile')
 	{
-		if ($_FILES[$tag_name])
+		if ( isset( $_FILES[$tag_name] ) && !empty( $_FILES[$tag_name]['name'] ) )
 		{
-			$upload_path = realpath(APPPATH . $directory . '/');
+			$upload_path = realpath(FCPATH . $directory . '/');
 			@unlink($upload_path . '/' . $id . '.jpg');
 			$config = [
 				'file_name' 		=> $id . '.jpg',

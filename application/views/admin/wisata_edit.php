@@ -34,7 +34,7 @@
 
                             <div class="form-group">
                                 <label for="foto">Foto</label>
-                                <input type="text" value="<?= $wisata->deskripsi ?>" name="deskripsi" class="form-control" required>
+                                <input type="file" accept="image/*" name="berkas">
                             </div>
 
                             <div class="form-group">
