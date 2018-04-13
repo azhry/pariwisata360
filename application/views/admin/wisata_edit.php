@@ -28,6 +28,11 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="kategori_wisata">Kategori Wisata</label>
+                                <?= form_dropdown( 'id_kategori', $kategori, $wisata->id_kategori, [ 'class' => 'form-control', 'required' => 'required' ] )  ?>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="deskripsi">Deskripsi</label>
                                 <input type="text" value="<?= $wisata->deskripsi ?>" name="deskripsi" class="form-control" required>
                             </div>

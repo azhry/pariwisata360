@@ -1,8 +1,6 @@
     </div>
     <!-- /#wrapper -->
     
-    <!-- jQuery -->
-    <script src="<?= base_url( 'assets/ample-admin-lite' ) ?>/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="<?= base_url( 'assets/ample-admin-lite/html' ) ?>/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Menu Plugin JavaScript -->

@@ -8,7 +8,7 @@
                         <h4 class="page-title"><?= $title ?></h4> </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="<?= base_url( 'admin/tambah-wisata' ) ?>">Dashboard</a></li>
+                            <li><a href="<?= base_url( 'admin/data-wisata' ) ?>">Dashboard</a></li>
                             <li class="active"><?= $title ?></li>
                         </ol>
                     </div>
@@ -28,23 +28,42 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="deskripsi">Deskripsi</label>
-                                <input type="text" name="deskripsi" class="form-control" required>
+                                <label for="kategori_wisata">Kategori Wisata</label>
+                                <select class="form-control" name="id_kategori">
+                                    <option>Pilih Kategori</option>
+                                    <?php foreach ( $kategori as $row ): ?>
+                                        <option value="<?= $row->id_kategori ?>"><?= $row->nama_kategori ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="foto">Foto</label>
-                                <input type="file" name="berkas" class="form-control" required>
+                                <label for="deskripsi">Deskripsi</label>
+                                <textarea class="form-control" name="deskripsi" required></textarea>
+                            </div>
+
+                            <input type="hidden" name="num_img" value="1" id="num-img">
+                            <button type="button" id="tambah-foto-btn" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Foto</button>
+                            <div id="foto-container">
+                                <div class="form-group">
+                                    <label for="foto">Foto 1</label>
+                                    <input type="file" name="berkas1" accept="image/*" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="koordinat">Pilih Koordinat</label>
+                                <div id="map" style="width: 100%; height: 300px;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" name="latitude" class="form-control" required>
+                                <input id="latitude" type="number" step="any" name="latitude" class="form-control" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
-                                <input type="text" name="longitude" class="form-control" required>
+                                <input id="longitude" type="number" step="any" name="longitude" class="form-control" required>
                             </div>
 
 
@@ -62,3 +81,75 @@
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+        <script type="text/javascript">
+            var map;
+            function initMap() {
+
+                let plgLat = -2.990934;
+                let plgLng = 104.756554;
+                let plgPos = new google.maps.LatLng( plgLat, plgLng );
+                map = new google.maps.Map(document.getElementById( 'map' ), {
+                    center: plgPos,
+                    zoom: 12
+                });
+
+                document.getElementById( 'latitude' ).value     = plgLat;
+                document.getElementById( 'longitude' ).value    = plgLng;
+
+                let plgMarker = new google.maps.Marker({
+                    position: plgPos,
+                    map: map
+                });
+
+                google.maps.event.addListener(map, 'click', function( event ) {
+
+                    let latLng = new google.maps.LatLng( event.latLng.lat(), event.latLng.lng() );
+                    plgMarker.setPosition( latLng );
+                    document.getElementById( 'latitude' ).value     = event.latLng.lat();
+                    document.getElementById( 'longitude' ).value    = event.latLng.lng();
+
+                });
+
+                google.maps.event.addListener(map, 'mousemove', function(event){
+                    map.setOptions({draggableCursor: 'pointer'});
+                });
+
+                $( document ).ready(function() {
+                    
+                    $( '#latitude, #longitude' ).keypress(function() {
+                        
+                        let lat = $( '#latitude' ).val();
+                        let lng = $( '#longitude' ).val();
+                        
+                        let latLng = new google.maps.LatLng( lat, lng );
+                        plgMarker.setPosition( latLng );
+                        map.setCenter( latLng );
+
+                    });
+
+                });
+
+            }
+        </script>
+
+        <script type="text/javascript">
+            $( document ).ready(function() {
+
+                var idx = 1;
+
+                $( '#tambah-foto-btn' ).on('click', function() {
+
+                    $( '#foto-container' ).append('<div class="form-group">' +
+                        '<label for="foto">Foto ' + (++idx) + '</label>' +
+                        '<input type="file" name="berkas' + idx + '" accept="image/*" class="form-control" required>' +
+                    '</div>');
+
+                    $( '#num-img' ).val( idx );
+
+                });
+
+            });
+        </script>
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>&callback=initMap"></script>

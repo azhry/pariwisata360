@@ -2,7 +2,9 @@
 
 class MY_Controller extends CI_Controller
 {
-  	public $title = 'Survei Kepuasan Mahasiswa';
+  	public $title 		= 'Pariwisata';
+  	public $copyright	= 'Azhary Arliansyah';
+  	public $author		= 'Azhary Arliansyah';
 	
 	public function __construct()
 	{
@@ -37,7 +39,7 @@ class MY_Controller extends CI_Controller
 		return $this->session->set_flashdata($name, '<div class="alert alert-'.$type.' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$msg.'</div>');
 	}
 
-	protected function upload($id, $directory, $tag_name = 'userfile')
+	protected function upload($id, $directory, $tag_name = 'userfile', $max_size = 0)
 	{
 		if ( isset( $_FILES[$tag_name] ) && !empty( $_FILES[$tag_name]['name'] ) )
 		{
@@ -46,7 +48,8 @@ class MY_Controller extends CI_Controller
 			$config = [
 				'file_name' 		=> $id . '.jpg',
 				'allowed_types'		=> 'jpg|png|bmp|jpeg',
-				'upload_path'		=> $upload_path
+				'upload_path'		=> $upload_path,
+				'max_size'			=> $max_size
 			];
 			$this->load->library('upload');
 			$this->upload->initialize($config);

@@ -53,6 +53,8 @@ class Wisata extends MY_Controller {
 		$this->data['wisata']		= $this->wisata_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
 		$this->check_allowance( !isset( $this->data['wisata'] ), [ 'Data wisata tidak ditemukan', 'danger' ] );
 
+		$this->data['foto']	= json_decode( $this->data['wisata']->foto );
+
 		$this->config->load( 'app' );
 		$this->data['GOOGLE_MAPS_API_KEY']	= $this->config->item( 'GOOGLE_MAPS_API_KEY' );
 		$this->data['title']				= $this->data['wisata']->nama_wisata;

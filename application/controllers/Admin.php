@@ -113,8 +113,23 @@ class Admin extends MY_Controller {
 		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
 
 			$this->data['id_wisata']	= $this->uri->segment( 3 );
-			$this->wisata_m->delete( $this->data['id_wisata'] );
-			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			$this->data['wisata']		= $this->wisata_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
+
+			if ( isset( $this->data['id_wisata'] ) ) {
+
+				$this->wisata_m->delete( $this->data['id_wisata'] );
+				$imgs = json_decode( $this->data['wisata']->foto );
+				foreach ( $imgs as $img ) {
+					@unlink( realpath( FCPATH . '/assets/img/wisata/' . $img ) );
+				}
+				$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			
+			} else {
+
+				$this->flashmsg( '<i class="fa fa-times"></i> Data tidak ditemukan', 'danger' );
+
+			}
+
 			redirect( 'admin/data-wisata' );
 			exit;
 
@@ -132,27 +147,45 @@ class Admin extends MY_Controller {
 		// abdi
 		// buat file baru wisata_tambah.php di ./views/admin
 
+		$this->config->load( 'app' );
+		$this->data['GOOGLE_MAPS_API_KEY'] = $this->config->item( 'GOOGLE_MAPS_API_KEY' );
+
 		$this->load->model( 'hak_akses_m' );
 		$this->data['hak_akses']	= $this->hak_akses_m->get();
+		$this->load->model( 'kategori_wisata_m' );
 
 		if ( $this->POST( 'submit' ) ) {
 
 			$this->load->model( 'wisata_m' );
+			$id_wisata 	= $this->__generate_random_id();
+			$num_img 	= $this->POST( 'num_img' );
+			$foto		= [];
+			for ( $i = 0; $i < $num_img; $i++ ) {
+				
+				$img_name = $id_wisata . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+				$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
+				$foto []= $img_name . '.jpg';
+
+			} 
+
 			$this->data['wisata'] = [
-				'id_wisata'		=> $this->__generate_random_id(),
+				'id_wisata'		=> $id_wisata,
 				'nama_wisata'	=> $this->POST( 'nama_wisata' ),
 				'deskripsi'		=> $this->POST( 'deskripsi' ),
+				'foto'			=> json_encode( $foto ),
 				'latitude'		=> $this->POST( 'latitude' ),
 				'longitude'		=> $this->POST( 'longitude' ),
+				'id_kategori'	=> $this->POST( 'id_kategori' )
 			];
 			$this->wisata_m->insert( $this->data['wisata'] );
-			$this->upload( $this->db->insert_id(), '/assets/img/wisata', 'berkas' );
+			
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
 			redirect( 'admin/data-wisata' );
 			exit;
 
 		}
 
+		$this->data['kategori']		= $this->kategori_wisata_m->get();
 		$this->data['title']		= 'Tambah Wisata';
 		$this->data['content']		= 'admin/wisata_tambah';
 		$this->template( $this->data, 'admin' );
@@ -164,11 +197,15 @@ class Admin extends MY_Controller {
 		// abdi
 		// buat file baru wisata_edit.php di ./views/admin
 
+		$this->config->load( 'app' );
+		$this->data['GOOGLE_MAPS_API_KEY'] = $this->config->item( 'GOOGLE_MAPS_API_KEY' );
+
 		$this->data['id_wisata']	= $this->uri->segment( 3 );
 		$this->check_allowance( !isset( $this->data['id_wisata'] ) );
 
 		$this->load->model( 'hak_akses_m' );
 		$this->load->model( 'wisata_m' );
+		$this->load->model( 'kategori_wisata_m' );
 
 		if ( $this->POST( 'edit' ) ) {
 
@@ -177,6 +214,7 @@ class Admin extends MY_Controller {
 				'deskripsi'		=> $this->POST( 'deskripsi' ),
 				'latitude'		=> $this->POST( 'latitude' ),
 				'longitude'		=> $this->POST( 'longitude' ),
+				'id_kategori'	=> $this->POST( 'id_kategori' ),
 				'updated_at'	=> date( 'Y-m-d H:i:s' )
 			];
 			$this->wisata_m->update( $this->data['id_wisata'], $this->data['wisata'] );
@@ -190,9 +228,13 @@ class Admin extends MY_Controller {
 		$this->data['wisata']		= $this->wisata_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
 		$this->check_allowance( !isset( $this->data['wisata'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
 
-		$this->data['hak_akses']	= $this->hak_akses_m->get();
-		$this->data['title']		= 'Edit Wisata';
-		$this->data['content']		= 'admin/wisata_edit';
+		$this->data['data_kategori']	= $this->kategori_wisata_m->get();
+		$this->data['kategori']			= [];
+		foreach ( $this->data['data_kategori'] as $kategori ) $this->data['kategori'][$kategori->id_kategori] = $kategori->nama_kategori;
+
+		$this->data['hak_akses']		= $this->hak_akses_m->get();
+		$this->data['title']			= 'Edit Wisata';
+		$this->data['content']			= 'admin/wisata_edit';
 		$this->template( $this->data, 'admin' );
 
 	}
@@ -294,6 +336,42 @@ class Admin extends MY_Controller {
 		$this->data['content']		= 'admin/hak_akses_edit';
 		$this->template( $this->data, 'admin' );
 
+	}
+
+	public function data_kategori_wisata() {
+		// abdi
+	}
+
+	public function tambah_kategori_wisata() {
+		// abdi
+	}
+
+	public function edit_kategori_wisata() {
+		// abdi
+	}
+
+	public function data_komentar_wisata() {
+		// abdi
+	}
+
+	public function tambah_komentar_wisata() {
+		// irsyad
+	}
+
+	public function edit_komentar_wisata() {
+		// irsyad
+	}
+
+	public function data_rating_wisata() {
+		// irsyad
+	}
+
+	public function tambah_rating_wisata() {
+		// irsyad
+	}
+
+	public function edit_rating_wisata() {
+		// irsyad
 	}
 
 }
