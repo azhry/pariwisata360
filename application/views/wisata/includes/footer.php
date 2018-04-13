@@ -178,7 +178,7 @@
 	<div id="dropDownSelect1"></div>
 
 	<!-- Modal Video 01-->
-	<div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
+	<!-- <div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
 
 		<div class="modal-dialog" role="document" data-dismiss="modal">
 			<div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
@@ -190,7 +190,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 
 
