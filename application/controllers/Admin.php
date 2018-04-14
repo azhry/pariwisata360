@@ -360,18 +360,121 @@ class Admin extends MY_Controller {
 
 	public function edit_komentar_wisata() {
 		// irsyad
+
+		$this->data['id_komentar']	= $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_komentar'] ) );
+
+		$this->load->model( 'komentar_wisata_m' );
+		$this->load->model( 'wisata_m' );
+		$this->load->model( 'pengguna_m' );
+
+		if ( $this->POST( 'edit' ) ) {
+
+			$this->data['komentar']	= [
+				'id_wisata' 	=> $this->POST( 'id_wisata' ),
+				'id_pengguna' 	=> $this->POST( 'id_pengguna' ),
+				'komentar'		=> $this->POST( 'komentar' ),
+				'updated_at' 	=> date("Y-m-d H:i:s")
+			];
+			
+			$this->komentar_wisata_m->update( $this->data['id_komentar'], $this->data['komentar'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			redirect( 'admin/edit-komentar-wisata/' . $this->data['id_komentar'] );
+			exit;
+
+		}
+
+		$this->data['komentar']		= $this->komentar_wisata_m->get_row([ 'id_komentar' => $this->data['id_komentar'] ]);
+		$this->check_allowance( !isset( $this->data['id_komentar'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['pengguna']		= $this->pengguna_m->get();
+		$this->data['title']		= 'Edit Komentar Wisata';
+		$this->data['content']		= 'admin/komentar_wisata_edit';
+		$this->template( $this->data, 'admin' );
 	}
 
 	public function data_rating_wisata() {
 		// irsyad
+		$this->load->model( 'rating_wisata_m' );
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
+
+			$this->data['id_rating']	= $this->uri->segment( 3 );
+			$this->rating_wisata_m->delete( $this->data['id_rating'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			redirect( 'admin/data-rating-wisata' );
+			exit;
+
+		}
+
+		$this->data['rating']	= $this->rating_wisata_m->getDataJoin(['wisata','pengguna'], ['wisata.id_wisata=rating_wisata.id_wisata', 'pengguna.id_pengguna=rating_wisata.id_pengguna']);
+		$this->data['title']	= 'Data Rating Wisata';
+		$this->data['content']	= 'admin/rating_wisata_data';
+		$this->template( $this->data, 'admin' );
 	}
 
 	public function tambah_rating_wisata() {
 		// irsyad
+		$this->load->model( 'wisata_m' );
+		$this->load->model( 'pengguna_m' );
+
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->load->model( 'rating_wisata_m' );
+			$this->data['rating'] = [
+				'id_wisata' => $this->POST('id_wisata'),
+				'id_pengguna' => $this->POST('id_pengguna'),
+				'rating' => $this->POST('rating'),
+				'created_at' => date("Y-m-d H:i:s"),
+				'updated_at' => date("Y-m-d H:i:s")
+			];
+			$this->rating_wisata_m->insert( $this->data['rating'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
+			redirect( 'admin/data-rating-wisata' );
+			exit;
+
+		}
+
+		$this->data['pengguna']		= $this->pengguna_m->get();
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['title']		= 'Tambah Rating Wisata';
+		$this->data['content']		= 'admin/rating_wisata_tambah';
+		$this->template( $this->data, 'admin' );
 	}
 
 	public function edit_rating_wisata() {
 		// irsyad
+	
+		$this->data['id_rating']	= $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_rating'] ) );
+
+		$this->load->model( 'rating_wisata_m' );
+		$this->load->model( 'wisata_m' );
+		$this->load->model( 'pengguna_m' );
+
+		if ( $this->POST( 'edit' ) ) {
+
+			$this->data['rating']	= [
+				'id_wisata' => $this->POST('id_wisata'),
+				'id_pengguna' => $this->POST('id_pengguna'),
+				'rating' => $this->POST('rating'),
+				'updated_at' => date("Y-m-d H:i:s")
+			];
+			
+			$this->rating_wisata_m->update( $this->data['id_rating'], $this->data['rating'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			redirect( 'admin/edit-rating-wisata/' . $this->data['id_rating'] );
+			exit;
+
+		}
+
+		$this->data['rating']		= $this->rating_wisata_m->get_row([ 'id_rating' => $this->data['id_rating'] ]);
+		$this->check_allowance( !isset( $this->data['rating'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['pengguna']		= $this->pengguna_m->get();
+		$this->data['title']		= 'Edit Rating Wisata';
+		$this->data['content']		= 'admin/rating_wisata_edit';
+		$this->template( $this->data, 'admin' );
 	}
 
 }
