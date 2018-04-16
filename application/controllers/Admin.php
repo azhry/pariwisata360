@@ -493,7 +493,7 @@ class Admin extends MY_Controller {
 			];
 			
 			$this->komentar_wisata_m->update( $this->data['id_komentar'], $this->data['komentar'] );
-			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			$this->flashmsg( '<i class="fa fa-check"></i> Komentar berhasil di-edit' );
 			redirect( 'admin/edit-komentar-wisata/' . $this->data['id_komentar'] );
 			exit;
 

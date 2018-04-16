@@ -42,7 +42,7 @@
 
                             <div class="form-group">
                                 <label for="komentar">Komentar</label>
-                                <input value="<?= $komentar->komentar ?>" type="text" name="komentar" class="form-control" required>
+                                <textarea name="komentar" value="<?= $komentar->komentar ?>" class="form-control" rows="5" required><?= $komentar->komentar ?></textarea>
                             </div>
 
 
