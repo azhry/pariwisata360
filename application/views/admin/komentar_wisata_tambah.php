@@ -20,33 +20,35 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/edit-komentar-wisata/' .$id_komentar) ?>
+                            <?= form_open_multipart( 'admin/tambah-komentar-wisata' ) ?>
 
                             <div class="form-group">
-                                <label for="id_wisata">Nama Wisata</label>
-                                <?php  
-                                    $koment = [];
-                                    foreach ( $wisata as $row ) $koment[$row->id_wisata] = $row->nama_wisata;
-                                    echo form_dropdown( 'id_wisata', $koment, $komentar->id_wisata, [ 'class' => 'form-control', 'required' => 'required' ] );
-                                ?>
+                                <label for="id_wisata">Wisata</label>
+                                <select class="form-control" name="id_wisata" required>
+                                    <option>Pilih Wisata</option>
+                                    <?php foreach ( $wisata as $row ): ?>
+                                    <option value="<?= $row->id_wisata ?>"><?= $row->nama_wisata ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="id_pengguna">Nama Wisata</label>
-                                <?php  
-                                    $koment = [];
-                                    foreach ( $pengguna as $row ) $koment[$row->id_pengguna] = $row->nama;
-                                    echo form_dropdown( 'id_pengguna', $koment, $komentar->id_pengguna, [ 'class' => 'form-control', 'required' => 'required' ] );
-                                ?>
+                                <label for="id_pengguna">Pengguna</label>
+                                <select class="form-control" name="id_pengguna" required>
+                                    <option>Pilih Pengguna</option>
+                                    <?php foreach ( $pengguna as $row ): ?>
+                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="komentar">Komentar</label>
-                                <textarea name="komentar" value="<?= $komentar->komentar ?>" class="form-control" rows="5" required><?= $komentar->komentar ?></textarea>
+                                <textarea name="komentar" class="form-control" rows="5" placeholder="Tulis Komentar Disini" required></textarea>
                             </div>
 
 
-                            <input type="submit" name="edit" value="Edit" class="btn btn-primary">
+                            <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
 
                             <?= form_close() ?>
 

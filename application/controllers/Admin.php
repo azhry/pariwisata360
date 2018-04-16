@@ -356,6 +356,31 @@ class Admin extends MY_Controller {
 
 	public function tambah_komentar_wisata() {
 		// irsyad
+		$this->load->model( 'komentar_wisata_m' );
+		$this->load->model( 'wisata_m' );
+		$this->load->model( 'pengguna_m' );
+
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->data['komentar']	= [
+				'id_wisata' 	=> $this->POST( 'id_wisata' ),
+				'id_pengguna' 	=> $this->POST( 'id_pengguna' ),
+				'komentar'		=> $this->POST( 'komentar' ),
+				'created_at'	=> date("Y-m-d H:i:s"),
+				'updated_at' 	=> date("Y-m-d H:i:s")
+			];
+			$this->komentar_wisata_m->insert( $this->data['komentar'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Komentar berhasil ditambahkan' );
+			redirect( 'admin/data-komentar-wisata' );
+			exit;
+
+		}
+
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['pengguna']		= $this->pengguna_m->get();
+		$this->data['title']		= 'Tambah Komentar Wisata';
+		$this->data['content']		= 'admin/komentar_wisata_tambah';
+		$this->template( $this->data, 'admin' );
 	}
 
 	public function edit_komentar_wisata() {
@@ -378,7 +403,7 @@ class Admin extends MY_Controller {
 			];
 			
 			$this->komentar_wisata_m->update( $this->data['id_komentar'], $this->data['komentar'] );
-			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			$this->flashmsg( '<i class="fa fa-check"></i> Komentar berhasil di-edit' );
 			redirect( 'admin/edit-komentar-wisata/' . $this->data['id_komentar'] );
 			exit;
 
