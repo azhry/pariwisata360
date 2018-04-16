@@ -38,8 +38,8 @@
                                             <td><?= $row->komentar ?></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="<?= base_url( 'admin/edit-kategori-wisata/' . $row->id_komentar ) ?>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
-                                                    <a href="<?= base_url( 'admin/data-kategori-wisata/' . $row->id_komentar . '/delete' ) ?>" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                                    <a href="<?= base_url( 'admin/edit-komentar-wisata/' . $row->id_komentar ) ?>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+                                                    <a href="<?= base_url( 'admin/data-komentar-wisata/' . $row->id_komentar . '/delete' ) ?>" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                                                 </div>
                                             </td>
                                         </tr>

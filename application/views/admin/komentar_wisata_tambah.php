@@ -1,4 +1,4 @@
-        <!-- ============================================================== -->
+<!-- ============================================================== -->
         <!-- Page Content -->
         <!-- ============================================================== -->
         <div id="page-wrapper">
@@ -23,20 +23,30 @@
                             <?= form_open_multipart( 'admin/tambah-komentar-wisata' ) ?>
 
                             <div class="form-group">
-                                <label for="id_kategori">ID Pengguna</label>
-                                <input type="text" name="id_kategori" class="form-control" required>
+                                <label for="id_wisata">Wisata</label>
+                                <select class="form-control" name="id_wisata" required>
+                                    <option>Pilih Wisata</option>
+                                    <?php foreach ( $wisata as $row ): ?>
+                                    <option value="<?= $row->id_wisata ?>"><?= $row->nama_wisata ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
-
                             <div class="form-group">
-                                <label for="nama_kategori">ID Wisata</label>
-                                <input type="text" name="nama_kategori" class="form-control" required>
+                                <label for="id_pengguna">Pengguna</label>
+                                <select class="form-control" name="id_pengguna" required>
+                                    <option>Pilih Pengguna</option>
+                                    <?php foreach ( $pengguna as $row ): ?>
+                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="komentar">Komentar</label>
-                                <input type="text" name="komentar" class="form-control" required>
+                                <textarea name="komentar" class="form-control" rows="5" placeholder="Tulis Komentar Disini" required></textarea>
                             </div>
+
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
 

@@ -447,25 +447,29 @@ class Admin extends MY_Controller {
 	public function tambah_komentar_wisata() {
 		// irsyad
 		$this->load->model( 'komentar_wisata_m' );
-		$this->data['komentar_wisata']	= $this->komentar_wisata_m->get();
+		$this->load->model( 'wisata_m' );
+		$this->load->model( 'pengguna_m' );
 
 		if ( $this->POST( 'submit' ) ) {
 
-			$this->load->model( 'komentar_wisata_m' );
-			$this->data['komentar_wisata'] = [
-				'id_pengguna'	=> $this->POST('id_pengguna'),
-				'id_wisata'	=> $this->POST( 'id_wisata' ),
-				'komentar'		=> $this->POST( 'komentar' )
+			$this->data['komentar']	= [
+				'id_wisata' 	=> $this->POST( 'id_wisata' ),
+				'id_pengguna' 	=> $this->POST( 'id_pengguna' ),
+				'komentar'		=> $this->POST( 'komentar' ),
+				'created_at'	=> date("Y-m-d H:i:s"),
+				'updated_at' 	=> date("Y-m-d H:i:s")
 			];
-			$this->komentar_wisata_m->insert( $this->data['komentar_wisata'] );
-			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
+			$this->komentar_wisata_m->insert( $this->data['komentar'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Komentar berhasil ditambahkan' );
 			redirect( 'admin/data-komentar-wisata' );
 			exit;
 
 		}
 
-		$this->data['title']		= 'Tambah Komentar';
-		$this->data['content']		= 'admin/komentar_tambah_wisata';
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['pengguna']		= $this->pengguna_m->get();
+		$this->data['title']		= 'Tambah Komentar Wisata';
+		$this->data['content']		= 'admin/komentar_wisata_tambah';
 		$this->template( $this->data, 'admin' );
 	}
 
