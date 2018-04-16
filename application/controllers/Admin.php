@@ -340,22 +340,133 @@ class Admin extends MY_Controller {
 
 	public function data_kategori_wisata() {
 		// abdi
+		$this->load->model( 'kategori_wisata_m' );
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
+
+			$this->data['id_kategori']	= $this->uri->segment( 3 );
+			$this->kategori_wisata_m->delete( $this->data['id_kategori'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			redirect( 'admin/data-kategori-wisata' );
+			exit;
+
+		}
+
+		$this->data['kategori_wisata']	= $this->kategori_wisata_m->get();
+		$this->data['title']	= 'Data Kategori';
+		$this->data['content']	= 'admin/kategori_data';
+		$this->template( $this->data, 'admin' );
+		
 	}
 
 	public function tambah_kategori_wisata() {
 		// abdi
+		$this->load->model( 'kategori_wisata_m' );
+		$this->data['kategori_wisata']	= $this->kategori_wisata_m->get();
+
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->load->model( 'kategori_wisata_m' );
+			$this->data['kategori_wisata'] = [
+				'id_kategori'	=> $this->POST('id_kategori'),
+				'nama_kategori'	=> $this->POST( 'nama_kategori' ),
+				'deskripsi'		=> $this->POST( 'deskripsi' )
+			];
+			$this->kategori_wisata_m->insert( $this->data['kategori_wisata'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
+			redirect( 'admin/data-kategori-wisata' );
+			exit;
+
+		}
+
+		$this->data['title']		= 'Tambah Kategori';
+		$this->data['content']		= 'admin/kategori_tambah';
+		$this->template( $this->data, 'admin' );
+
 	}
 
 	public function edit_kategori_wisata() {
 		// abdi
+		$this->data['id_kategori']	= $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_kategori'] ) );
+
+		$this->load->model( 'kategori_wisata_m' );
+		
+
+		if ( $this->POST( 'edit' ) ) {
+
+			$this->data['kategori']	= [
+				'id_kategori' => $this->POST('id_kategori'),
+				'nama_kategori' => $this->POST('nama_kategori'),
+				'deskripsi' => $this->POST('deskripsi'),
+				'updated_at' => date("Y-m-d H:i:s")
+			];
+			
+			$this->kategori_wisata_m->update( $this->data['id_kategori'], $this->data['kategori'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			redirect( 'admin/data-kategori-wisata/' . $this->data['id_kategori'] );
+			exit;
+
+		}
+
+		$this->data['kategori']		= $this->kategori_wisata_m->get_row([ 'id_kategori' => $this->data['id_kategori'] ]);
+		$this->check_allowance( !isset( $this->data['kategori'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
+		$this->data['title']		= 'Edit Kategori Wisata';
+		$this->data['content']		= 'admin/kategori_edit';
+		$this->template( $this->data, 'admin' );
 	}
+
+
 
 	public function data_komentar_wisata() {
 		// abdi
+
+		$this->load->model( 'komentar_wisata_m' );
+		$this->load->model('pengguna_m');
+		$this->load->model('wisata_m');
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
+
+			$this->data['id_komentar']	= $this->uri->segment( 3 );
+			$this->komentar_wisata_m->delete( $this->data['id_komentar'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			redirect( 'admin/data-komentar-wisata' );
+			exit;
+
+		}
+
+		$this->data['pengguna'] = $this->pengguna_m->get();
+		$this->data['wisata'] = $this->wisata_m->get();
+		$this->data['komentar_wisata']	= $this->komentar_wisata_m->get();
+		$this->data['title']	= 'Data Komentar Wisata';
+		$this->data['content']	= 'admin/komentar_data_wisata';
+		$this->template( $this->data, 'admin' );
+
 	}
 
 	public function tambah_komentar_wisata() {
 		// irsyad
+		$this->load->model( 'komentar_wisata_m' );
+		$this->data['komentar_wisata']	= $this->komentar_wisata_m->get();
+
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->load->model( 'komentar_wisata_m' );
+			$this->data['komentar_wisata'] = [
+				'id_pengguna'	=> $this->POST('id_pengguna'),
+				'id_wisata'	=> $this->POST( 'id_wisata' ),
+				'komentar'		=> $this->POST( 'komentar' )
+			];
+			$this->komentar_wisata_m->insert( $this->data['komentar_wisata'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
+			redirect( 'admin/data-komentar-wisata' );
+			exit;
+
+		}
+
+		$this->data['title']		= 'Tambah Komentar';
+		$this->data['content']		= 'admin/komentar_tambah_wisata';
+		$this->template( $this->data, 'admin' );
 	}
 
 	public function edit_komentar_wisata() {
