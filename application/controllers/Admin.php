@@ -716,8 +716,6 @@ class Admin extends MY_Controller {
 			$this->data['tanya'] = [
 				'id_kuesioner'  => $this->POST( 'id_kuesioner' ),
 				'pertanyaan'	=> $this->POST( 'pertanyaan' ),
-				'created_at' 	=> date("Y-m-d H:i:s"),
-				'updated_at' 	=> date("Y-m-d H:i:s")
 			];
 			$this->kuesioner_pertanyaan_m->insert( $this->data['tanya'] );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
@@ -797,8 +795,6 @@ class Admin extends MY_Controller {
 				'id_pertanyaan' => $this->POST( 'id_pertanyaan' ),
 				'jawaban' 		=> $this->POST( 'jawaban' ),
 				'nilai'			=> $this->POST( 'nilai' ),
-				'created_at' 	=> date("Y-m-d H:i:s"),
-				'updated_at' 	=> date("Y-m-d H:i:s")
 			];
 			$this->kuesioner_jawaban_m->insert( $this->data['jawab'] );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
