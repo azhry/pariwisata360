@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="label">rating</label>
+                                <label for="rating">rating</label>
                                 <input type="number" step="any" name="rating" class="form-control" required>
                             </div>
 

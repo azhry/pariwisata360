@@ -8,8 +8,7 @@
                         <h4 class="page-title"><?= $title ?></h4> </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="<?= base_url( 'admin/index' ) ?>">Dashboard</a></li>
-                            <li><a href="<?= base_url( 'admin/data-hak-akses' ) ?>">Data Hak Akses</a></li>
+                            <li><a href="<?= base_url( 'admin' ) ?>">Dashboard</a></li>
                             <li class="active"><?= $title ?></li>
                         </ol>
                     </div>
@@ -21,13 +20,21 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/edit-hak-akses/' . $id_hak_akses ) ?>
+                            <?= form_open_multipart( 'admin/edit-pertanyaan-kuesioner/' .$id_pertanyaan) ?>
 
                             <div class="form-group">
-                                <label for="label">Nama Akses</label>
-                                <input type="text" value="<?= $akses->label ?>" name="label" class="form-control" required>
+                                <label for="id_kuesioner">Pilih Kuesioner</label>
+                                <?php  
+                                    $q = [];
+                                    foreach ( $kuesioner as $row ) $q[$row->id_kuesioner] = $row->nama_kuesioner;
+                                    echo form_dropdown( 'id_kuesioner', $q, $tanya->id_kuesioner, [ 'class' => 'form-control', 'required' => 'required' ] );
+                                ?>
                             </div>
 
+                            <div class="form-group">
+                                <label for="pertanyaan">Pertanyaan</label>
+                                <textarea name="pertanyaan" value="<?= $tanya->pertanyaan ?>" class="form-control" rows="5" required><?= $tanya->pertanyaan ?></textarea>
+                            </div>
 
                             <input type="submit" name="edit" value="Edit" class="btn btn-primary">
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2018 at 09:06 PM
+-- Generation Time: Apr 21, 2018 at 01:55 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -77,6 +77,49 @@ CREATE TABLE `komentar_wisata` (
   `id_pengguna` bigint(20) NOT NULL,
   `id_wisata` bigint(20) NOT NULL,
   `komentar` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kuesioner`
+--
+
+CREATE TABLE `kuesioner` (
+  `id_kuesioner` bigint(20) NOT NULL,
+  `nama_kuesioner` varchar(250) NOT NULL,
+  `id_wisata` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kuesioner_jawaban`
+--
+
+CREATE TABLE `kuesioner_jawaban` (
+  `id_jawaban` bigint(20) NOT NULL,
+  `id_pertanyaan` bigint(20) NOT NULL,
+  `jawaban` text NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kuesioner_pertanyaan`
+--
+
+CREATE TABLE `kuesioner_pertanyaan` (
+  `id_pertanyaan` bigint(20) NOT NULL,
+  `id_kuesioner` bigint(20) NOT NULL,
+  `pertanyaan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -172,6 +215,27 @@ ALTER TABLE `komentar_wisata`
   ADD KEY `id_pengguna` (`id_pengguna`);
 
 --
+-- Indexes for table `kuesioner`
+--
+ALTER TABLE `kuesioner`
+  ADD PRIMARY KEY (`id_kuesioner`),
+  ADD KEY `id_wisata` (`id_wisata`);
+
+--
+-- Indexes for table `kuesioner_jawaban`
+--
+ALTER TABLE `kuesioner_jawaban`
+  ADD PRIMARY KEY (`id_jawaban`),
+  ADD KEY `id_pertanyaan` (`id_pertanyaan`);
+
+--
+-- Indexes for table `kuesioner_pertanyaan`
+--
+ALTER TABLE `kuesioner_pertanyaan`
+  ADD PRIMARY KEY (`id_pertanyaan`),
+  ADD KEY `id_kuesioner` (`id_kuesioner`);
+
+--
 -- Indexes for table `pengguna`
 --
 ALTER TABLE `pengguna`
@@ -216,6 +280,24 @@ ALTER TABLE `komentar_wisata`
   MODIFY `id_komentar` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `kuesioner`
+--
+ALTER TABLE `kuesioner`
+  MODIFY `id_kuesioner` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `kuesioner_jawaban`
+--
+ALTER TABLE `kuesioner_jawaban`
+  MODIFY `id_jawaban` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `kuesioner_pertanyaan`
+--
+ALTER TABLE `kuesioner_pertanyaan`
+  MODIFY `id_pertanyaan` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
@@ -231,7 +313,7 @@ ALTER TABLE `rating_wisata`
 -- AUTO_INCREMENT for table `wisata`
 --
 ALTER TABLE `wisata`
-  MODIFY `id_wisata` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1531469178;
+  MODIFY `id_wisata` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1071347240;
 
 --
 -- Constraints for dumped tables
@@ -243,6 +325,24 @@ ALTER TABLE `wisata`
 ALTER TABLE `komentar_wisata`
   ADD CONSTRAINT `komentar_wisata_ibfk_1` FOREIGN KEY (`id_wisata`) REFERENCES `wisata` (`id_wisata`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `komentar_wisata_ibfk_2` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `kuesioner`
+--
+ALTER TABLE `kuesioner`
+  ADD CONSTRAINT `kuesioner_ibfk_1` FOREIGN KEY (`id_wisata`) REFERENCES `wisata` (`id_wisata`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `kuesioner_jawaban`
+--
+ALTER TABLE `kuesioner_jawaban`
+  ADD CONSTRAINT `kuesioner_jawaban_ibfk_1` FOREIGN KEY (`id_pertanyaan`) REFERENCES `kuesioner_pertanyaan` (`id_pertanyaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `kuesioner_pertanyaan`
+--
+ALTER TABLE `kuesioner_pertanyaan`
+  ADD CONSTRAINT `kuesioner_pertanyaan_ibfk_1` FOREIGN KEY (`id_kuesioner`) REFERENCES `kuesioner` (`id_kuesioner`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pengguna`

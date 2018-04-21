@@ -8,8 +8,7 @@
                         <h4 class="page-title"><?= $title ?></h4> </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="<?= base_url( 'admin/index' ) ?>">Dashboard</a></li>
-                            <li><a href="<?= base_url( 'admin/data-pengguna' ) ?>">Data Pengguna</a></li>
+                            <li><a href="<?= base_url( 'admin' ) ?>">Dashboard</a></li>
                             <li class="active"><?= $title ?></li>
                         </ol>
                     </div>
@@ -21,42 +20,38 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-pengguna' ) ?>
+                            <?= form_open_multipart( 'admin/tambah-jawaban-kuesioner' ) ?>
 
                             <div class="form-group">
-                                <label for="nama">Nama</label>
-                                <input type="text" name="nama" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="tempat_lahir">Tempat Lahir</label>
-                                <input type="text" name="tempat_lahir" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="tanggal_lahir">Tanggal Lahir</label>
-                                <input type="text" name="tanggal_lahir" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_hak_akses">Hak Akses</label>
-                                <select class="form-control" name="id_hak_akses" required>
-                                    <option>Pilih Hak Akses</option>
-                                    <?php foreach ( $hak_akses as $row ): ?>
-                                    <option value="<?= $row->id_hak_akses ?>"><?= $row->label ?></option>
+                                <label for="id_kuesioner">Kuesioner</label>
+                                <select class="form-control" name="id_kuesioner" required>
+                                    <option>Pilih Kuesioner</option>
+                                    <?php foreach ( $kuesioner as $row ): ?>
+                                    <option value="<?= $row->id_kuesioner ?>"><?= $row->nama_kuesioner ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="id_pertanyaan">Pertanyaan</label>
+                                <select class="form-control" name="id_pertanyaan" required>
+                                    <option>Pilih Pertanyaan</option>
+                                    <?php foreach ( $pertanyaan as $row ): ?>
+                                    <option value="<?= $row->id_pertanyaan ?>"><?= $row->pertanyaan ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="jawaban">Jawaban</label>
+                                <textarea name="jawaban" class="form-control" rows="5" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nilai">nilai</label>
+                                <input type="number" step="any" name="nilai" class="form-control" required>
+                            </div>
+
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
 
