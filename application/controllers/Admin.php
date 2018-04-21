@@ -596,11 +596,54 @@ class Admin extends MY_Controller {
 
 		// abdi
 
+		$this->load->model( 'kuesioner_m' );
+		$this->load->model('wisata_m');
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
+
+			$this->data['id_kuesioner']	= $this->uri->segment( 3 );
+			$this->kuesioner_m->delete( $this->data['id_kuesioner'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			redirect( 'admin/data-kuesioner' );
+			exit;
+
+		}
+
+		$this->data['kuesioner']	= $this->kuesioner_m->get();
+		$this->data['wisata'] = $this->wisata_m->get();
+		$this->data['title']	= 'Data Kuesioner';
+		$this->data['content']	= 'admin/kuesioner_data';
+		$this->template( $this->data, 'admin' );
+
+
 	}
 
 	public function tambah_kuesioner() {
 
 		// abdi
+
+		$this->load->model( 'kuesioner_m' );
+		$this->load->model( 'wisata_m' );
+
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->load->model( 'kuesioner_m' );
+			$this->data['kuesioner'] = [
+				'nama_kuesioner' => $this->POST('nama_kuesioner'),
+				'id_wisata' => $this->POST('id_wisata')
+			];
+			$this->kuesioner_m->insert( $this->data['kuesioner'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
+			redirect( 'admin/data-kuesioner' );
+			exit;
+
+		}
+
+		$this->data['kuesioner']	= $this->kuesioner_m->get();
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['title']		= 'Tambah Kuesioner';
+		$this->data['content']		= 'admin/kuesioner_tambah';
+		$this->template( $this->data, 'admin' );
 
 	}
 
@@ -608,11 +651,57 @@ class Admin extends MY_Controller {
 
 		// abdi
 
+		$this->data['id_kuesioner']	= $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_kuesioner'] ) );
+
+		$this->load->model( 'kuesioner_m' );
+		$this->load->model( 'wisata_m' );
+
+		if ( $this->POST( 'edit' ) ) {
+
+			$this->data['kuesioner']	= [
+				'nama_kuesioner' => $this->POST('nama_kuesioner'),
+				'id_wisata' => $this->POST('id_wisata'),
+				'updated_at' => date("Y-m-d H:i:s")
+			];
+			
+			$this->kuesioner_m->update( $this->data['id_kuesioner'], $this->data['kuesioner'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			redirect( 'admin/edit-kuesioner/' . $this->data['id_kuesioner'] );
+			exit;
+
+		}
+
+		$this->data['kuesioner']= $this->kuesioner_m->get_row([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+		$this->check_allowance( !isset( $this->data['kuesioner'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
+		$this->data['wisata'] 		= $this->wisata_m->get();
+		$this->data['title']		= 'Edit Kuesioner';
+		$this->data['content']		= 'admin/kuesioner_edit';
+		$this->template( $this->data, 'admin' );
 	}
 
 	public function data_pertanyaan_kuesioner() {
 
 		// abdi
+		$this->load->model( 'pertanyaan_kuesioner_m' );
+		$this->load->model('kuesioner_m');
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
+
+			$this->data['id_pertanyaan']	= $this->uri->segment( 3 );
+			$this->pertanyaan_kuesioner_m->delete( $this->data['id_pertanyaan'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			redirect( 'admin/data-pertanyaan-kuesioner' );
+			exit;
+
+		}
+
+		$this->data['pertanyaan_kuesioner']	= $this->pertanyaan_kuesioner_m->get();
+		$this->data['kuesioner'] = $this->kuesioner_m->get();
+		$this->data['title']	= 'Data Kuesioner';
+		$this->data['content']	= 'admin/pertanyaan_kuesioner_data';
+		$this->template( $this->data, 'admin' );
+
 
 	}
 
