@@ -592,4 +592,58 @@ class Admin extends MY_Controller {
 		$this->template( $this->data, 'admin' );
 	}
 
+	public function data_kuesioner() {
+
+		// abdi
+
+	}
+
+	public function tambah_kuesioner() {
+
+		// abdi
+
+	}
+
+	public function edit_kuesioner() {
+
+		// abdi
+
+	}
+
+	public function data_pertanyaan_kuesioner() {
+
+		// abdi
+
+	}
+
+	public function tambah_pertanyaan_kuesioner() {
+
+		// irsyad
+
+	}
+
+	public function edit_pertanyaan_kuesioner() {
+
+		// irsyad
+
+	}
+
+	public function data_jawaban_kuesioner() {
+
+		// irsyad
+
+	}
+
+	public function tambah_jawaban_kuesioner() {
+
+		// irsyad
+
+	}
+
+	public function edit_jawaban_kuesioner() {
+
+		// irsyad
+
+	}
+
 }

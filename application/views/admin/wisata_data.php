@@ -8,7 +8,7 @@
                         <h4 class="page-title"><?= $title ?></h4> </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="<?= base_url( 'admin/data-wisata' ) ?>">Dashboard</a></li>
+                            <li><a href="<?= base_url( 'admin/index' ) ?>">Dashboard</a></li>
                             <li class="active"><?= $title ?></li>
                         </ol>
                     </div>
