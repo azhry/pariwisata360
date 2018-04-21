@@ -27,6 +27,8 @@
                                         <th>ID Kuesioner</th>
                                         <th>Nama Kuesioner</th>
                                         <th>ID Wisata</th>
+                                        <th>Create</th>
+                                        <th>Update</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,6 +38,8 @@
                                             <td><?= $row->id_kuesioner ?></td>
                                             <td><?= $row->nama_kuesioner ?></td>
                                             <td><?= $row->id_wisata ?></td>
+                                            <td><?= $row->created_at ?></td>
+                                            <td><?= $row->updated_at ?></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="<?= base_url( 'admin/edit-kuesioner/' . $row->id_kuesioner ) ?>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>

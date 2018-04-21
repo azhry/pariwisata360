@@ -27,6 +27,8 @@
                                         <th>ID Pertanyaan</th>
                                         <th>ID Kuesioner</th>
                                         <th>Pertanyaan</th>
+                                        <th>Create</th>
+                                        <th>Update</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,6 +38,8 @@
                                             <td><?= $row->id_pertanyaan ?></td>
                                             <td><?= $row->id_kuesioner ?></td>
                                             <td><?= $row->pertanyaan ?></td>
+                                            <td><?= $row->created_at ?></td>
+                                            <td><?= $row->updated_at ?></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="<?= base_url( 'admin/edit-pertanyaan-kuesioner/' . $row->id_pertanyaan ) ?>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
