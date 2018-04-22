@@ -26,6 +26,9 @@
                     <li>
                         <a class="profile-pic" href="#"> <img src="<?= base_url( 'assets/ample-admin-lite' ) ?>/plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b></a>
                     </li>
+                    <li>
+                        <a href="<?= base_url( 'logout' ) ?>">Logout</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-header -->

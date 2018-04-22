@@ -34,119 +34,108 @@
 	<!-- Review -->
 	<section class="section-review p-t-115">
 		<!-- - -->
-		<div class="title-review t-center m-b-2">
+		<div id="komentar-wisata" class="title-review t-center m-b-2">
 			<span class="tit2 p-l-15 p-r-15">
-				Customers Say
+				Komentar Pengunjung
 			</span>
-
-			<h3 class="tit8 t-center p-l-20 p-r-15 p-t-3">
-				Review
-			</h3>
 		</div>
 
-		<!-- - -->
+		<?php if ( count( $komentar_wisata ) > 0 ): ?>
 		<div class="wrap-slick3">
 			<div class="slick3">
-				<div class="item-slick3 item1-slick3">
-					<div class="wrap-content-slide3 p-b-50 p-t-50">
-						<div class="container">
-							<div class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false" data-appear="zoomIn">
-								<img src="<?= base_url( 'assets/pato' ) ?>/images/avatar-01.jpg" alt="IGM-AVATAR">
-							</div>
-
-							<div class="content-review m-t-33 animated visible-false" data-appear="fadeInUp">
-								<p class="t-center txt12 size15 m-l-r-auto">
-									“ We are lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tellus sem, mattis in pre-tium nec, fermentum viverra dui ”
-								</p>
-
-								<div class="star-review fs-18 color0 flex-c-m m-t-12">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
+				<?php foreach ( $komentar_wisata as $komentar ): ?>
+					<div class="item-slick3 item1-slick3">
+						<div class="wrap-content-slide3 p-b-50 p-t-50">
+							<div class="container">
+								<div class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false" data-appear="zoomIn">
+									<img src="<?= base_url( 'assets/pato' ) ?>/images/avatar-01.jpg" alt="IGM-AVATAR">
 								</div>
 
-								<div class="more-review txt4 t-center animated visible-false m-t-32" data-appear="fadeInUp">
-									Marie Simmons ˗ New York
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+								<div class="content-review m-t-33 animated visible-false" data-appear="fadeInUp">
+									<p class="t-center txt12 size15 m-l-r-auto">
+										“ <?= $komentar->komentar ?> ”
+									</p>
 
-				<div class="item-slick3 item2-slick3">
-					<div class="wrap-content-slide3 p-b-50 p-t-50">
-						<div class="container">
-							<div class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false" data-appear="zoomIn">
-								<img src="<?= base_url( 'assets/pato' ) ?>/images/avatar-04.jpg" alt="IGM-AVATAR">
-							</div>
+									<?php 
+										$rating = $this->rating_wisata_m->get_row([ 'id_wisata' => $id_wisata, 'id_pengguna' => $this->session->userdata( 'id_pengguna' ) ]);
+										if ( $rating ):
+									?>
+									<div class="star-review fs-18 color0 flex-c-m m-t-12">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										<?php for ( $i = 0; $i < $rating->rating - 1; $i++ ): ?>
+										<i class="fa fa-star p-l-1" aria-hidden="true"></i>
+										<?php endfor; ?>
+									</div>
+								<?php endif; ?>
 
-							<div class="content-review m-t-33 animated visible-false" data-appear="fadeInUp">
-								<p class="t-center txt12 size15 m-l-r-auto">
-									“ We are lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tellus sem, mattis in pre-tium nec, fermentum viverra dui ”
-								</p>
-
-								<div class="star-review fs-18 color0 flex-c-m m-t-12">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-								</div>
-
-								<div class="more-review txt4 t-center animated visible-false m-t-32" data-appear="fadeInUp">
-									Marie Simmons ˗ New York
+									<div class="more-review txt4 t-center animated visible-false m-t-32" data-appear="fadeInUp">
+										<?= $komentar->nama ?>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="item-slick3 item3-slick3">
-					<div class="wrap-content-slide3 p-b-50 p-t-50">
-						<div class="container">
-							<div class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false" data-appear="zoomIn">
-								<img src="<?= base_url( 'assets/pato' ) ?>/images/avatar-05.jpg" alt="IGM-AVATAR">
-							</div>
-
-							<div class="content-review m-t-33 animated visible-false" data-appear="fadeInUp">
-								<p class="t-center txt12 size15 m-l-r-auto">
-									“ We are lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tellus sem, mattis in pre-tium nec, fermentum viverra dui ”
-								</p>
-
-								<div class="star-review fs-18 color0 flex-c-m m-t-12">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-									<i class="fa fa-star p-l-1" aria-hidden="true"></i>
-								</div>
-
-								<div class="more-review txt4 t-center animated visible-false m-t-32" data-appear="fadeInUp">
-									Marie Simmons ˗ New York
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
+				<?php endforeach; ?>
 			</div>
 
 			<div class="wrap-slick3-dots m-t-30"></div>
 		</div>
+		<?php else: ?>
+		<h4 class="text-center" style="margin: 25px;">Belum ada komentar untuk saat ini</h4>
+		<?php endif; ?>
 	</section>
 
 	<section class="bg2-pattern p-t-116 p-b-110 p-l-15 p-r-15">
+		<style type="text/css">
+			.star-rating {
+			  line-height:32px;
+			  font-size:1.25em;
+			}
+
+			.star-rating .fa-star{
+				color: #ec1d25;
+			}
+		</style>
 		<div class="container">
-			<?= form_open( 'wisata' ) ?>
-				<div class="form-group">
-					<textarea class="form-control" name="komentar" placeholder="Beri komentar untuk wisata ini"></textarea>
+			<?= $this->session->flashdata( 'msg' ) ?>
+			<div class="row">
+				<div class="col-md-6">
+					<?= form_open( 'wisata/detail/' . $id_wisata ) ?>
+						<div class="form-group">
+							<textarea class="form-control" name="komentar" placeholder="Beri komentar untuk wisata ini" required></textarea>
+						</div>
+						<input type="submit" name="submit_komentar" class="btn btn-danger" value="Submit">
+					<?= form_close() ?>
 				</div>
-				<input type="submit" name="submit_komentar" class="btn btn-danger" value="Submit">
-			<?= form_close() ?>
+				<div class="col-md-6">
+					<p id="rating-msg"></p>
+					<div class="star-rating" id="display-rating">
+						<span class="fa fa-star-o" data-rating="1"></span>
+						<span class="fa fa-star-o" data-rating="2"></span>
+						<span class="fa fa-star-o" data-rating="3"></span>
+						<span class="fa fa-star-o" data-rating="4"></span>
+						<span class="fa fa-star-o" data-rating="5"></span>
+						<input type="hidden" name="rating" id="rating-value" class="rating-value" value="<?= $rating ? $rating->rating : 0 ?>">
+					</div>
+					<button type="button" class="btn btn-danger btn-sm" id="beri_rating">Beri Rating</button>
+				</div>
+			</div>
 		</div>
 	</section>
+
+	<?php if ( $kuesioner ): ?>
+	<section class="bg2-pattern p-t-116 p-b-110 t-center p-l-15 p-r-15">
+		<div class="container">
+			<h4 style="font-size: 30px;" class="tit5 t-center m-t-2">
+				Kuesioner Wisata
+			</h4>
+			<center style="margin: 30px;">
+				<a href="<?= base_url( 'wisata/kuesioner/' . $kuesioner->id_kuesioner )  ?>" class="btn btn-danger btn-lg">Isi Kuesioner Sekarang</a>
+			</center>
+		</div>
+
+	</section>
+	<?php endif; ?>
 
 	<script type="text/javascript" src="<?= base_url( 'assets/photo-sphere-viewer/three.js' ) ?>"></script>
 	<script type="text/javascript" src="<?= base_url( 'assets/photo-sphere-viewer/photo-sphere-viewer.min.js' ) ?>"></script>
@@ -228,6 +217,54 @@
 			// 	}
 			// });
 		<?php endforeach; ?>
+
+		$(document).ready(function() {
+			var $star_rating = $('#display-rating .fa');
+
+			var SetRatingStar = function() {
+				return $star_rating.each(function() {
+					if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+						return $(this).removeClass('fa-star-o').addClass('fa-star');
+					} else {
+						return $(this).removeClass('fa-star').addClass('fa-star-o');
+					}
+				});
+			};
+
+			$star_rating.on('click', function() {
+				$star_rating.siblings('input.rating-value').val($(this).data('rating'));
+				return SetRatingStar();
+			});
+
+			SetRatingStar();
+
+			$( '#beri_rating' ).on('click', function() {
+				
+				var rating = $( '#rating-value' ).val();
+				$.ajax({
+					url: '<?= base_url( 'wisata/detail/' . $id_wisata ) ?>',
+					type: 'POST',
+					data: {
+						beri_rating: true,
+						rating: rating		
+					},
+					success: function( response ) {
+
+						var json = $.parseJSON( response );
+						$( '#rating-msg' ).text( json.msg );
+
+					},
+					error: function( err ) { console.log( err.responseText ); }
+				});
+
+			});
+
+			<?php if ( strlen($this->session->flashdata( 'msg' )) > 0 ): ?>
+				window.location = '<?= base_url( 'wisata/detail/' . $id_wisata . '#komentar-wisata' ) ?>';
+			<?php endif; ?>
+			
+		});
+
 	</script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>&callback=initMap"></script>

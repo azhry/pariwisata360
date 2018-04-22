@@ -30,5 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="<?= base_url( 'assets/pato' ) ?>/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<?= base_url( 'assets/pato' ) ?>/css/main.css">
 <!--===============================================================================================-->
+
+	<script type="text/javascript" src="<?= base_url( 'assets/pato' ) ?>/vendor/jquery/jquery-3.2.1.min.js"></script>
 </head>
 <body class="animsition">

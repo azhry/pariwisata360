@@ -20,21 +20,36 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-pertanyaan-kuesioner' ) ?>
+                            <?= form_open_multipart( 'admin/tambah-pertanyaan-kuesioner/' . $id_kuesioner ) ?>
 
                             <div class="form-group">
-                                <label for="id_kuesioner">Kuesioner</label>
-                                <select class="form-control" name="id_kuesioner" required>
-                                    <option>Pilih Kuesioner</option>
-                                    <?php foreach ( $kuesioner as $row ): ?>
-                                    <option value="<?= $row->id_kuesioner ?>"><?= $row->nama_kuesioner ?></option>
+                                <label for="pertanyaan">Pertanyaan</label>
+                                <textarea name="pertanyaan" class="form-control" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_kategori">Kategori</label>
+                                <select class="form-control" name="id_kategori" required>
+                                    <?php foreach ( $kategori as $row ): ?>
+                                        <option value="<?= $row->id_kategori ?>"><?= $row->kategori ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label for="pertanyaan">Pertanyaan</label>
-                                <textarea name="pertanyaan" class="form-control" rows="5" required></textarea>
+                            <div id="jawaban-container">
+                                <label for="jawaban">Jawaban <button type="button" id="tambah-pertanyaan-button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></button></label>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="jawaban[]" placeholder="Jawaban 1" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="number" min="1" max="5" class="form-control" name="nilai[]" placeholder="Nilai jawaban 1" required>
+                                        </div>  
+                                    </div>
+                                </div>
                             </div>
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
@@ -51,3 +66,27 @@
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+        <script type="text/javascript">
+            $( document ).ready(function() {
+
+                var idx = 1;
+                $( '#tambah-pertanyaan-button' ).on('click', function() {
+
+                    $( '#jawaban-container' ).append('<div class="row">' +
+                        '<div class="col-md-9">' +
+                            '<div class="form-group">' +
+                                '<textarea class="form-control" name="jawaban[]" placeholder="Jawaban ' + ++idx + '" required></textarea>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="col-md-3">' +
+                            '<div class="form-group">' +
+                                '<input type="number" min="1" max="5" class="form-control" name="nilai[]" placeholder="Nilai jawaban ' + idx + '" required>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>');
+
+                });
+
+            });
+        </script>

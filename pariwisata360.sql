@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2018 at 01:55 PM
+-- Generation Time: Apr 22, 2018 at 12:50 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -41,7 +41,8 @@ CREATE TABLE `hak_akses` (
 
 INSERT INTO `hak_akses` (`id_hak_akses`, `label`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', '2018-04-09 12:02:49', '2018-04-09 12:02:49'),
-(2, 'Kepala Dinas', '2018-04-09 12:02:49', '2018-04-09 12:02:49');
+(2, 'Kepala Dinas', '2018-04-09 12:02:49', '2018-04-09 12:02:49'),
+(3, 'Pengunjung', '2018-04-21 12:51:05', '2018-04-21 12:51:05');
 
 -- --------------------------------------------------------
 
@@ -81,6 +82,14 @@ CREATE TABLE `komentar_wisata` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `komentar_wisata`
+--
+
+INSERT INTO `komentar_wisata` (`id_komentar`, `id_pengguna`, `id_wisata`, `komentar`, `created_at`, `updated_at`) VALUES
+(1, 197357386, 1071347239, 'Tes komentar', '2018-04-22 05:17:27', '2018-04-22 05:17:27'),
+(2, 1866353805, 1071347239, 'kamu ganteng', '2018-04-22 08:21:18', '2018-04-22 08:21:18');
+
 -- --------------------------------------------------------
 
 --
@@ -94,6 +103,13 @@ CREATE TABLE `kuesioner` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kuesioner`
+--
+
+INSERT INTO `kuesioner` (`id_kuesioner`, `nama_kuesioner`, `id_wisata`, `created_at`, `updated_at`) VALUES
+(1, 'Kuesioner Punti Kayu', 1071347239, '2018-04-22 07:07:08', '2018-04-22 07:07:08');
 
 -- --------------------------------------------------------
 
@@ -110,6 +126,19 @@ CREATE TABLE `kuesioner_jawaban` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `kuesioner_jawaban`
+--
+
+INSERT INTO `kuesioner_jawaban` (`id_jawaban`, `id_pertanyaan`, `jawaban`, `nilai`, `created_at`, `updated_at`) VALUES
+(3, 1010944106, 'Jawaban 1', 1, '2018-04-22 10:39:21', '2018-04-22 10:39:21'),
+(4, 1010944106, 'Jawaban 2', 2, '2018-04-22 10:39:21', '2018-04-22 10:39:21'),
+(5, 1010944106, 'Jawaban 3', 3, '2018-04-22 10:39:21', '2018-04-22 10:39:21'),
+(6, 1010944106, 'Jawaban 4', 4, '2018-04-22 10:39:21', '2018-04-22 10:39:21'),
+(454128228, 1821394066, 'Jawaban 1', 1, '2018-04-22 10:46:47', '2018-04-22 10:46:47'),
+(1029392317, 1821394066, 'Jawaban 3', 3, '2018-04-22 10:46:47', '2018-04-22 10:46:47'),
+(1599761473, 1821394066, 'Jawaban 2', 2, '2018-04-22 10:46:47', '2018-04-22 10:46:47');
+
 -- --------------------------------------------------------
 
 --
@@ -118,11 +147,43 @@ CREATE TABLE `kuesioner_jawaban` (
 
 CREATE TABLE `kuesioner_pertanyaan` (
   `id_pertanyaan` bigint(20) NOT NULL,
+  `id_kategori` bigint(20) NOT NULL,
   `id_kuesioner` bigint(20) NOT NULL,
   `pertanyaan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kuesioner_pertanyaan`
+--
+
+INSERT INTO `kuesioner_pertanyaan` (`id_pertanyaan`, `id_kategori`, `id_kuesioner`, `pertanyaan`, `created_at`, `updated_at`) VALUES
+(1010944106, 1, 1, 'Pertanyaan 1', '2018-04-22 10:39:21', '2018-04-22 10:39:21'),
+(1821394066, 3, 1, 'Pertanyaan 2', '2018-04-22 10:46:46', '2018-04-22 10:46:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kuesioner_pertanyaan_kategori`
+--
+
+CREATE TABLE `kuesioner_pertanyaan_kategori` (
+  `id_kategori` bigint(20) NOT NULL,
+  `kategori` varchar(150) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kuesioner_pertanyaan_kategori`
+--
+
+INSERT INTO `kuesioner_pertanyaan_kategori` (`id_kategori`, `kategori`, `created_at`, `updated_at`) VALUES
+(1, 'Infrastruktur', '2018-04-22 09:10:44', '2018-04-22 09:10:44'),
+(2, 'Kebersihan dan Keamanan', '2018-04-22 09:10:44', '2018-04-22 09:10:44'),
+(3, 'Sarana dan Prasarana', '2018-04-22 09:11:03', '2018-04-22 09:11:03'),
+(4, 'Sistem Informasi', '2018-04-22 09:11:03', '2018-04-22 09:11:03');
 
 -- --------------------------------------------------------
 
@@ -147,8 +208,10 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id_pengguna`, `id_hak_akses`, `email`, `password`, `nama`, `tempat_lahir`, `tanggal_lahir`, `created_at`, `updated_at`) VALUES
+(197357386, 3, 'azhary.arliansyah@studentpartner.com', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'Palembang', '1996-08-05', '2018-04-21 12:53:48', '2018-04-21 12:53:48'),
 (707278361, 2, 'azhryarl@gmail.com', 'd8bba894a37a322932dc80e05de59fe3', 'Azh', 'Palembang', '1996-08-05', '2018-04-09 12:19:55', '2018-04-09 12:33:12'),
-(1495442337, 1, 'arliansyah_azhary@yahoo.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Azhary Arliansyah', 'Palembang', '1996-08-05', '2018-04-09 12:17:45', '2018-04-09 12:17:45');
+(1495442337, 1, 'arliansyah_azhary@yahoo.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Azhary Arliansyah', 'Palembang', '1996-08-05', '2018-04-09 12:17:45', '2018-04-09 12:17:45'),
+(1866353805, 3, 'muhammadfarhan280296@gmail.com', 'a645424d423aef1eb6c8da9fbfb123c0', 'muhammad farhan', 'Palembang', '1996-02-28', '2018-04-22 08:19:34', '2018-04-22 08:19:34');
 
 -- --------------------------------------------------------
 
@@ -164,6 +227,14 @@ CREATE TABLE `rating_wisata` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rating_wisata`
+--
+
+INSERT INTO `rating_wisata` (`id_rating`, `id_wisata`, `id_pengguna`, `rating`, `created_at`, `updated_at`) VALUES
+(1, 1071347239, 197357386, 4, '2018-04-22 06:48:27', '2018-04-22 06:51:29'),
+(2, 1071347239, 1866353805, 4, '2018-04-22 08:21:57', '2018-04-22 08:22:01');
 
 -- --------------------------------------------------------
 
@@ -233,7 +304,14 @@ ALTER TABLE `kuesioner_jawaban`
 --
 ALTER TABLE `kuesioner_pertanyaan`
   ADD PRIMARY KEY (`id_pertanyaan`),
-  ADD KEY `id_kuesioner` (`id_kuesioner`);
+  ADD KEY `id_kuesioner` (`id_kuesioner`),
+  ADD KEY `id_kategori` (`id_kategori`);
+
+--
+-- Indexes for table `kuesioner_pertanyaan_kategori`
+--
+ALTER TABLE `kuesioner_pertanyaan_kategori`
+  ADD PRIMARY KEY (`id_kategori`);
 
 --
 -- Indexes for table `pengguna`
@@ -265,7 +343,7 @@ ALTER TABLE `wisata`
 -- AUTO_INCREMENT for table `hak_akses`
 --
 ALTER TABLE `hak_akses`
-  MODIFY `id_hak_akses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_hak_akses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kategori_wisata`
@@ -277,37 +355,43 @@ ALTER TABLE `kategori_wisata`
 -- AUTO_INCREMENT for table `komentar_wisata`
 --
 ALTER TABLE `komentar_wisata`
-  MODIFY `id_komentar` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_komentar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `kuesioner`
 --
 ALTER TABLE `kuesioner`
-  MODIFY `id_kuesioner` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kuesioner` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kuesioner_jawaban`
 --
 ALTER TABLE `kuesioner_jawaban`
-  MODIFY `id_jawaban` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_jawaban` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1599761474;
 
 --
 -- AUTO_INCREMENT for table `kuesioner_pertanyaan`
 --
 ALTER TABLE `kuesioner_pertanyaan`
-  MODIFY `id_pertanyaan` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pertanyaan` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1821394067;
+
+--
+-- AUTO_INCREMENT for table `kuesioner_pertanyaan_kategori`
+--
+ALTER TABLE `kuesioner_pertanyaan_kategori`
+  MODIFY `id_kategori` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1495442338;
+  MODIFY `id_pengguna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1866353806;
 
 --
 -- AUTO_INCREMENT for table `rating_wisata`
 --
 ALTER TABLE `rating_wisata`
-  MODIFY `id_rating` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rating` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `wisata`
@@ -342,7 +426,8 @@ ALTER TABLE `kuesioner_jawaban`
 -- Constraints for table `kuesioner_pertanyaan`
 --
 ALTER TABLE `kuesioner_pertanyaan`
-  ADD CONSTRAINT `kuesioner_pertanyaan_ibfk_1` FOREIGN KEY (`id_kuesioner`) REFERENCES `kuesioner` (`id_kuesioner`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `kuesioner_pertanyaan_ibfk_1` FOREIGN KEY (`id_kuesioner`) REFERENCES `kuesioner` (`id_kuesioner`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `kuesioner_pertanyaan_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `kuesioner_pertanyaan_kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pengguna`

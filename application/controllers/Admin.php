@@ -21,7 +21,23 @@ class Admin extends MY_Controller {
 
 	public function index() {
 
-		echo 'Dashboard admin';
+		$this->load->model( 'wisata_m' );
+		$this->load->model( 'pengguna_m' );
+		$this->load->model( 'hak_akses_m' );
+		$this->load->model( 'kategori_wisata_m' );
+		$this->load->model( 'komentar_wisata_m' );
+		$this->load->model( 'rating_wisata_m' );
+		$this->load->model( 'kuesioner_m' );
+		$this->data['wisata']			= $this->wisata_m->get();
+		$this->data['hak_akses']		= $this->hak_akses_m->get();
+		$this->data['pengguna']			= $this->pengguna_m->get();
+		$this->data['kategori_wisata']	= $this->kategori_wisata_m->get();
+		$this->data['komentar_wisata']	= $this->komentar_wisata_m->get();
+		$this->data['rating_wisata']	= $this->rating_wisata_m->get();
+		$this->data['kuesioner_wisata']	= $this->kuesioner_m->get();
+		$this->data['title']			= 'Dashboard';
+		$this->data['content']			= 'admin/dashboard';
+		$this->template( $this->data, 'admin' );
 
 	}
 
@@ -249,24 +265,6 @@ class Admin extends MY_Controller {
 
 	}
 
-	//Upload
-	// public function aksi_upload(){
-	// 	$config['upload_path']          = './gambar/';
-	// 	$config['allowed_types']        = 'gif|jpg|png';
-	// 	$config['max_size']             = 200;
-	// 	$config['max_width']            = 1024;
-	// 	$config['max_height']           = 768;
- 
-	// 	$this->load->library('upload', $config);
- 
-	// 	if ( ! $this->upload->do_upload('berkas')){
-	// 		$error = array('error' => $this->upload->display_errors());
-	// 		$this->load->view('wisata_tambah', $error);
-	// 	}else{
-	// 		$data = array('upload_data' => $this->upload->data());
-	// 		$this->load->view('wisata_tambah_sukses', $data);
-	// 	}
-	// }
 
 	public function data_hak_akses() {
 
@@ -717,25 +715,57 @@ class Admin extends MY_Controller {
 
 	public function tambah_pertanyaan_kuesioner() {
 
-		// irsyad
-		$this->load->model( 'kuesioner_m' );
+		$this->data['id_kuesioner'] = $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_kuesioner'] ) );
 
+		$this->load->model( 'kuesioner_m' );
+		$this->load->model( 'kuesioner_pertanyaan_kategori_m' );
+
+		// if button with name=submit is clicked
 		if ( $this->POST( 'submit' ) ) {
 
 			$this->load->model( 'kuesioner_pertanyaan_m' );
-			$this->data['tanya'] = [
-				'id_kuesioner'  => $this->POST( 'id_kuesioner' ),
+			$this->load->model( 'kuesioner_jawaban_m' );
+			
+			// encapsulate question to be inserted
+			$this->data['pertanyaan']	= [
 				'pertanyaan'	=> $this->POST( 'pertanyaan' ),
+				'id_kategori'	=> $this->POST( 'id_kategori' ),
+				'id_kuesioner'	=> $this->data['id_kuesioner'],
+				'id_pertanyaan'	=> $this->__generate_random_id()
 			];
-			$this->kuesioner_pertanyaan_m->insert( $this->data['tanya'] );
-			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
-			redirect( 'admin/data-pertanyaan-kuesioner' );
+
+			// insert question to kuesioner_pertanyaan table
+			$this->kuesioner_pertanyaan_m->insert( $this->data['pertanyaan'] );
+
+			// get last inserted primary key id
+			$id_pertanyaan = $this->db->insert_id();
+
+			// get jawaban and nilai data which passed as an array
+			$jawaban 	= $this->POST( 'jawaban' );
+			$nilai		= $this->POST( 'nilai' );
+
+			// insert jawaban and nilai one by one
+			for ( $i = 0; $i < count( $jawaban ) && $i < count( $nilai ); $i++ ) {
+
+				$this->kuesioner_jawaban_m->insert([
+					'id_pertanyaan'	=> $id_pertanyaan,
+					'jawaban'		=> $jawaban[$i],
+					'nilai'			=> $nilai[$i],
+					'id_jawaban'	=> $this->__generate_random_id()
+				]);
+
+			}
+
+			$this->flashmsg( '<i class="fa fa-check"></i> Pertanyaan kuesioner berhasil ditambahkan' );
+			redirect( 'admin/pertanyaan-kuesioner/' . $this->data['id_kuesioner'] );
 			exit;
 
 		}
 
-		$this->data['kuesioner'] 	= $this->kuesioner_m->get();
-		$this->data['title']		= 'Tambah Pertanyaan Kuesioner Wisata';
+		$this->data['kategori']		= $this->kuesioner_pertanyaan_kategori_m->get();
+		$this->data['kuesioner'] 	= $this->kuesioner_m->get_row([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+		$this->data['title']		= 'Tambah Pertanyaan ' . $this->data['kuesioner']->nama_kuesioner;
 		$this->data['content']		= 'admin/kuesioner_pertanyaan_tambah';
 		$this->template( $this->data, 'admin' );
 	}
@@ -852,6 +882,24 @@ class Admin extends MY_Controller {
 		$this->data['pertanyaan']	= $this->kuesioner_pertanyaan_m->get();
 		$this->data['title']		= 'Edit Jawaban Kuesioner Wisata';
 		$this->data['content']		= 'admin/kuesioner_jawaban_edit';
+		$this->template( $this->data, 'admin' );
+
+	}
+
+	public function pertanyaan_kuesioner() {
+
+		$this->data['id_kuesioner'] = $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_kuesioner'] ) );
+
+		$this->load->model( 'kuesioner_m' );
+		$this->data['kuesioner']	= $this->kuesioner_m->get_row([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+		$this->check_allowance( !isset( $this->data['kuesioner'] ), [ 'Data not found', 'danger' ] );
+
+		$this->load->model( 'kuesioner_pertanyaan_m' );
+		$this->data['pertanyaan'] = $this->kuesioner_pertanyaan_m->get([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+
+		$this->data['title']	= 'Pertanyaan Kuesioner';
+		$this->data['content']	= 'admin/kuesioner_pertanyaan_data';
 		$this->template( $this->data, 'admin' );
 
 	}

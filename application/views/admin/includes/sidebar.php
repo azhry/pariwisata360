@@ -28,6 +28,9 @@
                     <li>
                         <a href="<?= base_url( 'admin/data-rating-wisata' ) ?>" class="waves-effect"><i class="fa fa-star fa-fw" aria-hidden="true"></i>Data Rating Wisata</a>
                     </li>
+                    <li>
+                        <a href="<?= base_url( 'admin/data-kuesioner' ) ?>" class="waves-effect"><i class="fa fa-list-ol fa-fw" aria-hidden="true"></i>Data Kuesioner Wisata</a>
+                    </li>
                 </ul>
             </div>
         </div>
