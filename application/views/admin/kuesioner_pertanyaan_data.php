@@ -43,7 +43,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
-
+                            <canvas id="grafik"></canvas>
                         </div>
                     </div>
                 </div>
@@ -54,3 +54,53 @@
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+        <script type="text/javascript" src="<?= base_url( 'assets/chartjs/Chart.min.js' ) ?>"></script>
+        <script type="text/javascript">
+            var config = {
+                type: 'bar',
+                data: {
+                    labels: [
+                        <?php foreach ( $kategori as $row ): ?>
+                            "<?= $row->kategori ?>",
+                        <?php endforeach; ?>
+                    ],
+                    datasets: [{
+                        label: 'Rata-rata penilaian wisata per kategori',
+                        backgroundColor: '#7460ee',
+                        borderColor: '#7460ee',
+                        fill: false,
+                        data: [
+                            <?php foreach ( $kategori as $row ): ?>
+                                <?php  
+                                    $score = 0;
+                                    foreach ( $overall_score as $overall ) {
+
+                                        if ( $row->id_kategori == $overall->id_kategori ) {
+                                            $score = $overall->overall;
+                                        }
+                                    
+                                    }
+
+                                ?>
+                                <?= $score ?>,
+                            <?php endforeach; ?>
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                max: 5
+                            }
+                        }]
+                    }
+                }
+            };
+            var ctx = document.getElementById( 'grafik' ).getContext( '2d' );
+            new Chart( ctx, config );
+        </script>

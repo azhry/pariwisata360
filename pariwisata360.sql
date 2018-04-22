@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2018 at 12:50 PM
+-- Generation Time: Apr 22, 2018 at 02:27 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -138,6 +138,29 @@ INSERT INTO `kuesioner_jawaban` (`id_jawaban`, `id_pertanyaan`, `jawaban`, `nila
 (454128228, 1821394066, 'Jawaban 1', 1, '2018-04-22 10:46:47', '2018-04-22 10:46:47'),
 (1029392317, 1821394066, 'Jawaban 3', 3, '2018-04-22 10:46:47', '2018-04-22 10:46:47'),
 (1599761473, 1821394066, 'Jawaban 2', 2, '2018-04-22 10:46:47', '2018-04-22 10:46:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kuesioner_jawaban_pengguna`
+--
+
+CREATE TABLE `kuesioner_jawaban_pengguna` (
+  `id_jawaban_pengguna` bigint(20) NOT NULL,
+  `id_pengguna` bigint(20) NOT NULL,
+  `id_pertanyaan` bigint(20) NOT NULL,
+  `id_jawaban` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kuesioner_jawaban_pengguna`
+--
+
+INSERT INTO `kuesioner_jawaban_pengguna` (`id_jawaban_pengguna`, `id_pengguna`, `id_pertanyaan`, `id_jawaban`, `created_at`, `updated_at`) VALUES
+(898682870, 197357386, 1010944106, 3, '2018-04-22 11:24:20', '2018-04-22 11:24:48'),
+(1561804125, 197357386, 1821394066, 454128228, '2018-04-22 11:24:20', '2018-04-22 11:24:48');
 
 -- --------------------------------------------------------
 
@@ -300,6 +323,12 @@ ALTER TABLE `kuesioner_jawaban`
   ADD KEY `id_pertanyaan` (`id_pertanyaan`);
 
 --
+-- Indexes for table `kuesioner_jawaban_pengguna`
+--
+ALTER TABLE `kuesioner_jawaban_pengguna`
+  ADD PRIMARY KEY (`id_jawaban_pengguna`);
+
+--
 -- Indexes for table `kuesioner_pertanyaan`
 --
 ALTER TABLE `kuesioner_pertanyaan`
@@ -368,6 +397,12 @@ ALTER TABLE `kuesioner`
 --
 ALTER TABLE `kuesioner_jawaban`
   MODIFY `id_jawaban` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1599761474;
+
+--
+-- AUTO_INCREMENT for table `kuesioner_jawaban_pengguna`
+--
+ALTER TABLE `kuesioner_jawaban_pengguna`
+  MODIFY `id_jawaban_pengguna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1561804126;
 
 --
 -- AUTO_INCREMENT for table `kuesioner_pertanyaan`

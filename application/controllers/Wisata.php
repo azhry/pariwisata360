@@ -142,6 +142,51 @@ class Wisata extends MY_Controller {
 		$this->load->model( 'kuesioner_pertanyaan_m' );
 		$this->data['pertanyaan']	= $this->kuesioner_pertanyaan_m->get([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
 		$this->load->model( 'kuesioner_jawaban_m' );
+		$this->load->model( 'kuesioner_jawaban_pengguna_m' );
+
+		if ( $this->POST( 'submit_kuesioner' ) ) {
+
+			if ( $this->session->userdata( 'id_pengguna' ) && $this->session->userdata( 'hak_akses' ) ) {
+				
+				foreach ( $this->data['pertanyaan'] as $pertanyaan ) {
+
+					$check_jawaban_pengguna = $this->kuesioner_jawaban_pengguna_m->get_row([
+						'id_pengguna'	=> $this->session->userdata( 'id_pengguna' ),
+						'id_pertanyaan'	=> $pertanyaan->id_pertanyaan
+					]);
+
+					if ( $check_jawaban_pengguna ) {
+
+						$this->kuesioner_jawaban_pengguna_m->update($check_jawaban_pengguna->id_jawaban_pengguna, [ 
+							'id_jawaban'	=> $this->POST( 'jawaban-' . $pertanyaan->id_pertanyaan ),
+							'updated_at'	=> date( 'Y-m-d H:i:s' ) 
+						]);
+
+					} else {
+
+						$this->kuesioner_jawaban_pengguna_m->insert([
+							'id_pengguna'			=> $this->session->userdata( 'id_pengguna' ),
+							'id_pertanyaan'			=> $pertanyaan->id_pertanyaan,
+							'id_jawaban'			=> $this->POST( 'jawaban-' . $pertanyaan->id_pertanyaan ),
+							'id_jawaban_pengguna'	=> $this->__generate_random_id()
+						]);					
+
+					}
+
+				}
+
+				$this->flashmsg( '<i class="fa fa-check"></i> Terima kasih atas partisipasi anda dalam menjawab kuesioner' );
+
+			} else {
+
+				$this->flashmsg( 'Anda harus login terlebih dahulu <a href="' . base_url( 'auth' ) . '">disini</a> sebelum memberikan komentar', 'warning' );
+
+			}
+			
+			redirect( 'wisata/detail/' . $this->data['kuesioner']->id_wisata );
+			exit;
+
+		}
 
 		$this->data['title']	= 'Kuesioner';
 		$this->data['content']	= 'wisata/wisata_kuesioner';

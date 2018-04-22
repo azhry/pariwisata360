@@ -895,8 +895,14 @@ class Admin extends MY_Controller {
 		$this->data['kuesioner']	= $this->kuesioner_m->get_row([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
 		$this->check_allowance( !isset( $this->data['kuesioner'] ), [ 'Data not found', 'danger' ] );
 
+		$this->load->model( 'kuesioner_jawaban_pengguna_m' );
+		$this->data['overall_score'] = $this->kuesioner_jawaban_pengguna_m->get_overall_score( $this->data['id_kuesioner'] );
+
 		$this->load->model( 'kuesioner_pertanyaan_m' );
 		$this->data['pertanyaan'] = $this->kuesioner_pertanyaan_m->get([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+
+		$this->load->model( 'kuesioner_pertanyaan_kategori_m' );
+		$this->data['kategori'] = $this->kuesioner_pertanyaan_kategori_m->get();
 
 		$this->data['title']	= 'Pertanyaan Kuesioner';
 		$this->data['content']	= 'admin/kuesioner_pertanyaan_data';
