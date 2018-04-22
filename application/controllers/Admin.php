@@ -6,7 +6,17 @@ class Admin extends MY_Controller {
 	public function __construct() {
 
 		parent::__construct();
-		$this->load->helper(array('form', 'url'));
+		$this->data['id_pengguna']	= $this->session->userdata( 'id_pengguna' );
+		if ( !isset( $this->data['id_pengguna'] ) ) {
+
+			$this->session->sess_destroy();
+			$this->flashmsg( 'Anda tidak memiliki hak akses untuk halaman tersebut', 'danger' );
+			redirect( 'auth' );
+			exit;
+
+		}
+
+		$this->data['hak_akses']	= $this->session->userdata( 'hak_akses' );
 	}
 
 	public function index() {

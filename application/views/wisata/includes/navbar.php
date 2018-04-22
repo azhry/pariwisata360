@@ -16,31 +16,23 @@
 						<nav class="menu">
 							<ul class="main_menu">
 								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/index.html">Home</a>
+									<a href="<?= base_url( 'wisata' ) ?>">Beranda</a>
 								</li>
 
 								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/menu.html">Menu</a>
+									<a href="<?= base_url( 'wisata/kategori' ) ?>">Wisata</a>
 								</li>
 
 								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/reservation.html">Reservation</a>
+									<a href="<?= base_url( 'wisata/galeri' ) ?>">Galeri</a>
 								</li>
 
 								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/gallery.html">Gallery</a>
+									<a href="<?= base_url( 'wisata/tentang' ) ?>">Tentang</a>
 								</li>
 
 								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/about.html">About</a>
-								</li>
-
-								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/blog.html">Blog</a>
-								</li>
-
-								<li>
-									<a href="<?= base_url( 'assets/pato' ) ?>/contact.html">Contact</a>
+									<a href="<?= base_url( 'wisata/kontak' ) ?>">Kontak</a>
 								</li>
 							</ul>
 						</nav>

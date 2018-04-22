@@ -137,6 +137,17 @@
 		</div>
 	</section>
 
+	<section class="bg2-pattern p-t-116 p-b-110 p-l-15 p-r-15">
+		<div class="container">
+			<?= form_open( 'wisata' ) ?>
+				<div class="form-group">
+					<textarea class="form-control" name="komentar" placeholder="Beri komentar untuk wisata ini"></textarea>
+				</div>
+				<input type="submit" name="submit_komentar" class="btn btn-danger" value="Submit">
+			<?= form_close() ?>
+		</div>
+	</section>
+
 	<script type="text/javascript" src="<?= base_url( 'assets/photo-sphere-viewer/three.js' ) ?>"></script>
 	<script type="text/javascript" src="<?= base_url( 'assets/photo-sphere-viewer/photo-sphere-viewer.min.js' ) ?>"></script>
 
@@ -207,15 +218,15 @@
 		}
 
 		<?php $i = 0; foreach ( $foto as $row ): ?>
-			let PSV<?= $i ?> = new PhotoSphereViewer({
-				panorama: '<?= base_url( 'assets/img/wisata/' . $row ) ?>',
-				container: document.getElementById( 'container-<?= $i++ ?>' ),
-				time_anim: 3000,
-				navbar: true,
-				navbar_style: {
-					backgroundColor: 'rgba(58, 67, 77, 0.7)'
-				}
-			});
+			// let PSV<?= $i ?> = new PhotoSphereViewer({
+			// 	panorama: '<?= base_url( 'assets/img/wisata/' . $row ) ?>',
+			// 	container: document.getElementById( 'container-<?= $i++ ?>' ),
+			// 	time_anim: 3000,
+			// 	navbar: true,
+			// 	navbar_style: {
+			// 		backgroundColor: 'rgba(58, 67, 77, 0.7)'
+			// 	}
+			// });
 		<?php endforeach; ?>
 	</script>
 

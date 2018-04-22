@@ -64,5 +64,23 @@ class Wisata extends MY_Controller {
 
 	}
 
+	public function galeri() {
+
+		echo 'Galeri';
+
+	}
+
+	public function tentang() {
+
+		echo 'Tentang';
+
+	}
+
+	public function kontak() {
+
+		echo 'Kontak';
+
+	}
+
 
 }
