@@ -8,7 +8,8 @@
                         <h4 class="page-title"><?= $title ?></h4> </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="<?= base_url( 'admin' ) ?>">Dashboard</a></li>
+                            <li><a href="<?= base_url( 'admin/index' ) ?>">Dashboard</a></li>
+                            <li><a href="<?= base_url( 'admin/data-kuesioner' ) ?>">Data Pengguna</a></li>
                             <li class="active"><?= $title ?></li>
                         </ol>
                     </div>
@@ -20,7 +21,12 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-rating-wisata' ) ?>
+                            <?= form_open_multipart( 'admin/tambah-kuesioner' ) ?>
+
+                            <div class="form-group">
+                                <label for="nama_kuesioner">Nama Kuesioner</label>
+                                <input type="text" name="nama_kuesioner" class="form-control" required>
+                            </div>
 
                             <div class="form-group">
                                 <label for="id_wisata">Wisata</label>
@@ -31,22 +37,6 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
-                            <div class="form-group">
-                                <label for="id_pengguna">Pengguna</label>
-                                <select class="form-control" name="id_pengguna" required>
-                                    <option>Pilih Pengguna</option>
-                                    <?php foreach ( $pengguna as $row ): ?>
-                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="rating">rating</label>
-                                <input type="number" step="any" name="rating" class="form-control" required>
-                            </div>
-
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
 

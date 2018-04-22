@@ -20,35 +20,24 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-rating-wisata' ) ?>
+                            <?= form_open_multipart( 'admin/edit-kuesioner/' .$id_kuesioner) ?>
 
                             <div class="form-group">
-                                <label for="id_wisata">Wisata</label>
-                                <select class="form-control" name="id_wisata" required>
-                                    <option>Pilih Wisata</option>
-                                    <?php foreach ( $wisata as $row ): ?>
-                                    <option value="<?= $row->id_wisata ?>"><?= $row->nama_wisata ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="nama_kuesioner">Nama Kuesioner</label>
+                                <input type="text" name="nama_kuesioner" class="form-control" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="id_pengguna">Pengguna</label>
-                                <select class="form-control" name="id_pengguna" required>
-                                    <option>Pilih Pengguna</option>
-                                    <?php foreach ( $pengguna as $row ): ?>
-                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="rating">rating</label>
-                                <input type="number" step="any" name="rating" class="form-control" required>
+                                <label for="id_wisata">Nama Wisata</label>
+                                <?php  
+                                    $w = [];
+                                    foreach ( $wisata as $row ) $w[$row->id_wisata] = $row->nama_wisata;
+                                    echo form_dropdown( 'id_wisata', $w, $kuesioner->id_wisata, [ 'class' => 'form-control', 'required' => 'required' ] );
+                                ?>
                             </div>
 
 
-                            <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
+                            <input type="submit" name="edit" value="Edit" class="btn btn-primary">
 
                             <?= form_close() ?>
 

@@ -20,33 +20,22 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-rating-wisata' ) ?>
+                            <?= form_open_multipart( 'admin/tambah-pertanyaan-kuesioner' ) ?>
 
                             <div class="form-group">
-                                <label for="id_wisata">Wisata</label>
-                                <select class="form-control" name="id_wisata" required>
-                                    <option>Pilih Wisata</option>
-                                    <?php foreach ( $wisata as $row ): ?>
-                                    <option value="<?= $row->id_wisata ?>"><?= $row->nama_wisata ?></option>
+                                <label for="id_kuesioner">Kuesioner</label>
+                                <select class="form-control" name="id_kuesioner" required>
+                                    <option>Pilih Kuesioner</option>
+                                    <?php foreach ( $kuesioner as $row ): ?>
+                                    <option value="<?= $row->id_kuesioner ?>"><?= $row->nama_kuesioner ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="id_pengguna">Pengguna</label>
-                                <select class="form-control" name="id_pengguna" required>
-                                    <option>Pilih Pengguna</option>
-                                    <?php foreach ( $pengguna as $row ): ?>
-                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="pertanyaan">Pertanyaan</label>
+                                <textarea name="pertanyaan" class="form-control" rows="5" required></textarea>
                             </div>
-
-                            <div class="form-group">
-                                <label for="rating">rating</label>
-                                <input type="number" step="any" name="rating" class="form-control" required>
-                            </div>
-
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
 

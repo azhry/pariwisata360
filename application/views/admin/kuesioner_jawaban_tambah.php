@@ -20,31 +20,36 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-rating-wisata' ) ?>
+                            <?= form_open_multipart( 'admin/tambah-jawaban-kuesioner' ) ?>
 
                             <div class="form-group">
-                                <label for="id_wisata">Wisata</label>
-                                <select class="form-control" name="id_wisata" required>
-                                    <option>Pilih Wisata</option>
-                                    <?php foreach ( $wisata as $row ): ?>
-                                    <option value="<?= $row->id_wisata ?>"><?= $row->nama_wisata ?></option>
+                                <label for="id_kuesioner">Kuesioner</label>
+                                <select class="form-control" name="id_kuesioner" required>
+                                    <option>Pilih Kuesioner</option>
+                                    <?php foreach ( $kuesioner as $row ): ?>
+                                    <option value="<?= $row->id_kuesioner ?>"><?= $row->nama_kuesioner ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="id_pengguna">Pengguna</label>
-                                <select class="form-control" name="id_pengguna" required>
-                                    <option>Pilih Pengguna</option>
-                                    <?php foreach ( $pengguna as $row ): ?>
-                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
+                                <label for="id_pertanyaan">Pertanyaan</label>
+                                <select class="form-control" name="id_pertanyaan" required>
+                                    <option>Pilih Pertanyaan</option>
+                                    <?php foreach ( $pertanyaan as $row ): ?>
+                                    <option value="<?= $row->id_pertanyaan ?>"><?= $row->pertanyaan ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="rating">rating</label>
-                                <input type="number" step="any" name="rating" class="form-control" required>
+                                <label for="jawaban">Jawaban</label>
+                                <textarea name="jawaban" class="form-control" rows="5" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nilai">nilai</label>
+                                <input type="number" step="any" name="nilai" class="form-control" required>
                             </div>
 
 

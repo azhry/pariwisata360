@@ -20,35 +20,38 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-rating-wisata' ) ?>
+                            <?= form_open_multipart( 'admin/edit-jawaban-kuesioner/' .$id_jawaban) ?>
 
                             <div class="form-group">
-                                <label for="id_wisata">Wisata</label>
-                                <select class="form-control" name="id_wisata" required>
-                                    <option>Pilih Wisata</option>
-                                    <?php foreach ( $wisata as $row ): ?>
-                                    <option value="<?= $row->id_wisata ?>"><?= $row->nama_wisata ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="id_kuesioner">Pilih Kuesioner</label>
+                                <?php  
+                                    $qa = [];
+                                    foreach ( $kuesioner as $row ) $qa[$row->id_kuesioner] = $row->nama_kuesioner;
+                                    echo form_dropdown( 'id_pertanyaan', $qa, $jawab->id_pertanyaan, [ 'class' => 'form-control', 'required' => 'required' ] );
+                                ?>
                             </div>
 
                             <div class="form-group">
-                                <label for="id_pengguna">Pengguna</label>
-                                <select class="form-control" name="id_pengguna" required>
-                                    <option>Pilih Pengguna</option>
-                                    <?php foreach ( $pengguna as $row ): ?>
-                                    <option value="<?= $row->id_pengguna ?>"><?= $row->nama ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="id_pertanyaan">Pilih Pertanyaan</label>
+                                <?php  
+                                    $qa = [];
+                                    foreach ( $pertanyaan as $row ) $qa[$row->id_pertanyaan] = $row->pertanyaan;
+                                    echo form_dropdown( 'id_pertanyaan', $qa, $jawab->id_pertanyaan, [ 'class' => 'form-control', 'required' => 'required' ] );
+                                ?>
                             </div>
 
                             <div class="form-group">
-                                <label for="rating">rating</label>
-                                <input type="number" step="any" name="rating" class="form-control" required>
+                                <label for="jawaban">Jawaban</label>
+                                <textarea name="jawaban" value="<?= $jawab->jawaban ?>" class="form-control" rows="5" required><?= $jawab->jawaban ?></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nilai">nilai</label>
+                                <input type="number" value="<?= $jawab->nilai ?>" step="any" name="nilai" class="form-control" required>
                             </div>
 
 
-                            <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
+                            <input type="submit" name="edit" value="Edit" class="btn btn-primary">
 
                             <?= form_close() ?>
 
