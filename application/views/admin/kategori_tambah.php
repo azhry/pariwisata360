@@ -20,22 +20,24 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin/tambah-kategori-wisata' ) ?>
-
-                            <div class="form-group">
-                                <label for="id_kategori">ID Kategori</label>
-                                <input type="text" name="id_kategori" class="form-control" required>
-                            </div>
-
+                            <?= form_open_multipart( 'admin/tambah-kategori-wisata/' ) ?>
 
                             <div class="form-group">
                                 <label for="nama_kategori">Nama Kategori</label>
                                 <input type="text" name="nama_kategori" class="form-control" required>
                             </div>
 
+                            <input type="hidden" name="num_img" value="1" id="num-img">
+                            <div id="foto-container">
+                                <div class="form-group">
+                                    <label for="foto">Foto</label>
+                                    <input type="file" name="berkas1" accept="image/*" class="form-control" required>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="deskripsi">Deskripsi</label>
-                                <input type="text" name="deskripsi" class="form-control" required>
+                                <textarea class="form-control" name="deskripsi" required></textarea>
                             </div>
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">

@@ -353,10 +353,22 @@ class Admin extends MY_Controller {
 		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
 
 			$this->data['id_kategori']	= $this->uri->segment( 3 );
-			$this->kategori_wisata_m->delete( $this->data['id_kategori'] );
-			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
-			redirect( 'admin/data-kategori-wisata' );
-			exit;
+			$this->data['kategori_wisata']		= $this->kategori_wisata_m->get_row([ 'id_kategori' => $this->data['id_kategori'] ]);
+			if ( isset( $this->data['id_kategori'] ) ) {
+
+				$this->kategori_wisata_m->delete( $this->data['id_kategori'] );
+				$imgs = json_decode( $this->data['kategori_wisata']->foto );
+				foreach ( $imgs as $img ) {
+					@unlink( realpath( FCPATH . '/assets/img/kategori_wisata/' . $img ) );
+				}
+				$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			
+			} else {
+
+				$this->flashmsg( '<i class="fa fa-times"></i> Data tidak ditemukan', 'danger' );
+
+			}
+
 
 		}
 
@@ -369,17 +381,30 @@ class Admin extends MY_Controller {
 
 	public function tambah_kategori_wisata() {
 		// abdi
-		$this->load->model( 'kategori_wisata_m' );
-		$this->data['kategori_wisata']	= $this->kategori_wisata_m->get();
 
+		
 		if ( $this->POST( 'submit' ) ) {
-
 			$this->load->model( 'kategori_wisata_m' );
+			$id_kategori = $this->__generate_random_id();
+			$num_img 	 = $this->POST( 'num_img' );
+			$foto		 = [];
+			for ( $i = 0; $i < $num_img; $i++ ) {
+				
+				$img_name = $id_kategori . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+				$this->upload( $img_name, '/assets/img/kategori_wisata/', 'berkas' . ($i + 1) );
+				$foto []= $img_name . '.jpg';
+
+			} 
 			$this->data['kategori_wisata'] = [
-				'id_kategori'	=> $this->POST('id_kategori'),
+				'id_kategori'	=> $id_kategori,
 				'nama_kategori'	=> $this->POST( 'nama_kategori' ),
-				'deskripsi'		=> $this->POST( 'deskripsi' )
+				'foto'			=> json_encode( $foto ),
+				'deskripsi'		=> $this->POST( 'deskripsi' ),
+				'created_at'	=> date("Y-m-d H:i:s"),
+				'updated_at'	=> date("Y-m-d H:i:s")
+	
 			];
+
 			$this->kategori_wisata_m->insert( $this->data['kategori_wisata'] );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
 			redirect( 'admin/data-kategori-wisata' );
@@ -387,6 +412,7 @@ class Admin extends MY_Controller {
 
 		}
 
+		
 		$this->data['title']		= 'Tambah Kategori';
 		$this->data['content']		= 'admin/kategori_tambah';
 		$this->template( $this->data, 'admin' );
@@ -404,13 +430,13 @@ class Admin extends MY_Controller {
 		if ( $this->POST( 'edit' ) ) {
 
 			$this->data['kategori']	= [
-				'id_kategori' => $this->POST('id_kategori'),
 				'nama_kategori' => $this->POST('nama_kategori'),
 				'deskripsi' => $this->POST('deskripsi'),
 				'updated_at' => date("Y-m-d H:i:s")
 			];
 			
 			$this->kategori_wisata_m->update( $this->data['id_kategori'], $this->data['kategori'] );
+			$this->upload( $this->data['id_kategori'], '/assets/img/kategori_wisata', 'berkas' );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
 			redirect( 'admin/data-kategori-wisata/' . $this->data['id_kategori'] );
 			exit;

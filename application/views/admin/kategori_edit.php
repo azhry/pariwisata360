@@ -23,14 +23,13 @@
                             <?= form_open_multipart( 'admin/edit-kategori-wisata/' . $id_kategori ) ?>
 
                             <div class="form-group">
-                                <label for="id_kategori">ID Kategori</label>
-                                <input type="text" value="<?= $kategori->id_kategori ?>" name="id_kategori" class="form-control" required>
-                            </div>
-
-
-                            <div class="form-group">
                                 <label for="nama_kategori">Nama Kategori</label>
                                 <input type="text" value="<?= $kategori->nama_kategori ?>" name="nama_kategori" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="foto">Foto</label>
+                                <input type="file" accept="image/*" name="berkas">
                             </div>
 
                             <div class="form-group">
