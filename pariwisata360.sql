@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2018 at 02:27 PM
+-- Generation Time: Apr 29, 2018 at 03:54 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -54,6 +54,7 @@ CREATE TABLE `kategori_wisata` (
   `id_kategori` bigint(20) NOT NULL,
   `nama_kategori` varchar(150) NOT NULL,
   `deskripsi` text NOT NULL,
+  `foto` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -62,10 +63,10 @@ CREATE TABLE `kategori_wisata` (
 -- Dumping data for table `kategori_wisata`
 --
 
-INSERT INTO `kategori_wisata` (`id_kategori`, `nama_kategori`, `deskripsi`, `created_at`, `updated_at`) VALUES
-(1, 'Wisata Alam', 'Wisata Alam', '2018-04-13 12:19:21', '2018-04-13 12:19:21'),
-(2, 'Wisata Buatan', 'Wisata Buatan', '2018-04-13 12:19:21', '2018-04-13 12:19:21'),
-(3, 'Wisata Keluarga', 'Wisata Keluarga', '2018-04-13 12:19:32', '2018-04-13 12:19:32');
+INSERT INTO `kategori_wisata` (`id_kategori`, `nama_kategori`, `deskripsi`, `foto`, `created_at`, `updated_at`) VALUES
+(1, 'Wisata Alam', 'Wisata Alam', '', '2018-04-13 12:19:21', '2018-04-13 12:19:21'),
+(2, 'Wisata Buatan', 'Wisata Buatan', '', '2018-04-13 12:19:21', '2018-04-13 12:19:21'),
+(3, 'Wisata Keluarga', 'Wisata Keluarga', '', '2018-04-13 12:19:32', '2018-04-13 12:19:32');
 
 -- --------------------------------------------------------
 
@@ -159,8 +160,8 @@ CREATE TABLE `kuesioner_jawaban_pengguna` (
 --
 
 INSERT INTO `kuesioner_jawaban_pengguna` (`id_jawaban_pengguna`, `id_pengguna`, `id_pertanyaan`, `id_jawaban`, `created_at`, `updated_at`) VALUES
-(898682870, 197357386, 1010944106, 3, '2018-04-22 11:24:20', '2018-04-22 11:24:48'),
-(1561804125, 197357386, 1821394066, 454128228, '2018-04-22 11:24:20', '2018-04-22 11:24:48');
+(418661467, 197357386, 1010944106, 4, '2018-04-29 13:51:38', '2018-04-29 13:51:38'),
+(2007581300, 197357386, 1821394066, 1029392317, '2018-04-29 13:51:38', '2018-04-29 13:51:38');
 
 -- --------------------------------------------------------
 
@@ -326,7 +327,10 @@ ALTER TABLE `kuesioner_jawaban`
 -- Indexes for table `kuesioner_jawaban_pengguna`
 --
 ALTER TABLE `kuesioner_jawaban_pengguna`
-  ADD PRIMARY KEY (`id_jawaban_pengguna`);
+  ADD PRIMARY KEY (`id_jawaban_pengguna`),
+  ADD KEY `id_pengguna` (`id_pengguna`),
+  ADD KEY `id_pertanyaan` (`id_pertanyaan`),
+  ADD KEY `id_jawaban` (`id_jawaban`);
 
 --
 -- Indexes for table `kuesioner_pertanyaan`
@@ -402,7 +406,7 @@ ALTER TABLE `kuesioner_jawaban`
 -- AUTO_INCREMENT for table `kuesioner_jawaban_pengguna`
 --
 ALTER TABLE `kuesioner_jawaban_pengguna`
-  MODIFY `id_jawaban_pengguna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1561804126;
+  MODIFY `id_jawaban_pengguna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2007581301;
 
 --
 -- AUTO_INCREMENT for table `kuesioner_pertanyaan`
@@ -456,6 +460,14 @@ ALTER TABLE `kuesioner`
 --
 ALTER TABLE `kuesioner_jawaban`
   ADD CONSTRAINT `kuesioner_jawaban_ibfk_1` FOREIGN KEY (`id_pertanyaan`) REFERENCES `kuesioner_pertanyaan` (`id_pertanyaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `kuesioner_jawaban_pengguna`
+--
+ALTER TABLE `kuesioner_jawaban_pengguna`
+  ADD CONSTRAINT `kuesioner_jawaban_pengguna_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `kuesioner_jawaban_pengguna_ibfk_2` FOREIGN KEY (`id_pertanyaan`) REFERENCES `kuesioner_pertanyaan` (`id_pertanyaan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `kuesioner_jawaban_pengguna_ibfk_3` FOREIGN KEY (`id_jawaban`) REFERENCES `kuesioner_jawaban` (`id_jawaban`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `kuesioner_pertanyaan`

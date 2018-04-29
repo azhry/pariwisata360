@@ -207,15 +207,15 @@
 		}
 
 		<?php $i = 0; foreach ( $foto as $row ): ?>
-			// let PSV<?= $i ?> = new PhotoSphereViewer({
-			// 	panorama: '<?= base_url( 'assets/img/wisata/' . $row ) ?>',
-			// 	container: document.getElementById( 'container-<?= $i++ ?>' ),
-			// 	time_anim: 3000,
-			// 	navbar: true,
-			// 	navbar_style: {
-			// 		backgroundColor: 'rgba(58, 67, 77, 0.7)'
-			// 	}
-			// });
+			let PSV<?= $i ?> = new PhotoSphereViewer({
+				panorama: '<?= base_url( 'assets/img/wisata/' . $row ) ?>',
+				container: document.getElementById( 'container-<?= $i++ ?>' ),
+				time_anim: 3000,
+				navbar: true,
+				navbar_style: {
+					backgroundColor: 'rgba(58, 67, 77, 0.7)'
+				}
+			});
 		<?php endforeach; ?>
 
 		$(document).ready(function() {

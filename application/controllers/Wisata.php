@@ -188,6 +188,8 @@ class Wisata extends MY_Controller {
 
 		}
 
+		$this->load->model( 'kuesioner_pertanyaan_kategori_m' );
+		$this->data['kategori']	= $this->kuesioner_pertanyaan_kategori_m->get();
 		$this->data['title']	= 'Kuesioner';
 		$this->data['content']	= 'wisata/wisata_kuesioner';
 		$this->template( $this->data, 'wisata' );

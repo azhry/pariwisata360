@@ -40,7 +40,11 @@
 
 					<!-- Social -->
 					<div class="social flex-w flex-l-m p-r-20">
+						<?php if ( $this->session->userdata( 'id_pengguna' ) && $this->session->userdata( 'hak_akses' ) ): ?>
 						<a href="<?= base_url( 'logout' ) ?>">LOGOUT</a>
+						<?php else: ?>
+						<a href="<?= base_url( 'auth' ) ?>">LOGIN</a>
+						<?php endif; ?>
 						<!-- <button class="btn-show-sidebar m-l-33 trans-0-4"></button> -->
 					</div>
 				</div>
