@@ -5,7 +5,7 @@
 				<div class="col-md-4 p-t-30">
 					<div class="blo1">
 						<div class="wrap-pic-blo1 bo-rad-10 hov-img-zoom">
-							<a href="<?= base_url( 'wisata/daftar/' . $row->id_kategori ) ?>"><img src="<?= base_url( 'assets/pato' ) ?>/images/intro-01.jpg" alt="IMG-INTRO"></a>
+							<a href="<?= base_url( 'wisata/daftar/' . $row->id_kategori ) ?>"><img src="<?= base_url( 'assets/img/kategori_wisata/' . $row->foto ) ?>" onerror="this.src = '<?= base_url( 'assets/pato' ) ?>/images/intro-01.jpg';" alt="IMG-INTRO"></a>
 						</div>
 
 						<div class="wrap-text-blo1 p-t-35">

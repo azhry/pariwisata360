@@ -27,12 +27,9 @@
                                 <input type="text" name="nama_kategori" class="form-control" required>
                             </div>
 
-                            <input type="hidden" name="num_img" value="1" id="num-img">
-                            <div id="foto-container">
-                                <div class="form-group">
-                                    <label for="foto">Foto</label>
-                                    <input type="file" name="berkas1" accept="image/*" class="form-control" required>
-                                </div>
+                            <div class="form-group">
+                                <label for="foto">Foto</label>
+                                <input type="file" name="berkas" accept="image/*" class="form-control" required>
                             </div>
 
                             <div class="form-group">
