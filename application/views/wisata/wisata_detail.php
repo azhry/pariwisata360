@@ -115,7 +115,7 @@
 						<span class="fa fa-star-o" data-rating="3"></span>
 						<span class="fa fa-star-o" data-rating="4"></span>
 						<span class="fa fa-star-o" data-rating="5"></span>
-						<input type="hidden" name="rating" id="rating-value" class="rating-value" value="<?= $rating ? $rating->rating : 0 ?>">
+						<input type="hidden" name="rating" id="rating-value" class="rating-value" value="<?= isset( $rating ) ? $rating->rating : 0 ?>">
 					</div>
 					<button type="button" class="btn btn-danger btn-sm" id="beri_rating">Beri Rating</button>
 				</div>
