@@ -17,6 +17,10 @@ class Auth extends MY_Controller
 					redirect( 'admin' );
 					break;
 
+				case 'Admin Wisata':
+					redirect( 'admin-wisata' );
+					break;
+
 				case 'Pengunjung':
 					redirect( 'wisata' );
 					break;

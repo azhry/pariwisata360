@@ -938,4 +938,16 @@ class Admin extends MY_Controller {
 
 	}
 
+	public function data_event() {
+
+	}
+
+	public function tambah_event() {
+
+	}
+
+	public function edit_event() {
+
+	}
+
 }

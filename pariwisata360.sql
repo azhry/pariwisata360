@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2018 at 03:54 PM
+-- Generation Time: May 08, 2018 at 03:04 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -25,6 +25,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `event`
+--
+
+CREATE TABLE `event` (
+  `id_event` bigint(20) NOT NULL,
+  `nama_event` varchar(150) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `foto` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hak_akses`
 --
 
@@ -42,7 +57,8 @@ CREATE TABLE `hak_akses` (
 INSERT INTO `hak_akses` (`id_hak_akses`, `label`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', '2018-04-09 12:02:49', '2018-04-09 12:02:49'),
 (2, 'Kepala Dinas', '2018-04-09 12:02:49', '2018-04-09 12:02:49'),
-(3, 'Pengunjung', '2018-04-21 12:51:05', '2018-04-21 12:51:05');
+(3, 'Pengunjung', '2018-04-21 12:51:05', '2018-04-21 12:51:05'),
+(4, 'Admin Wisata', '2018-05-08 12:14:58', '2018-05-08 12:14:58');
 
 -- --------------------------------------------------------
 
@@ -64,7 +80,7 @@ CREATE TABLE `kategori_wisata` (
 --
 
 INSERT INTO `kategori_wisata` (`id_kategori`, `nama_kategori`, `deskripsi`, `foto`, `created_at`, `updated_at`) VALUES
-(1, 'Wisata Alam', 'Wisata Alam', '', '2018-04-13 12:19:21', '2018-04-13 12:19:21'),
+(1, 'Wisata Alam', 'Wisata Alam', '1_19622947_491788124496696_7499970616393465856_n.jpg', '2018-04-13 12:19:21', '2018-05-02 08:03:11'),
 (2, 'Wisata Buatan', 'Wisata Buatan', '', '2018-04-13 12:19:21', '2018-04-13 12:19:21'),
 (3, 'Wisata Keluarga', 'Wisata Keluarga', '', '2018-04-13 12:19:32', '2018-04-13 12:19:32');
 
@@ -82,14 +98,6 @@ CREATE TABLE `komentar_wisata` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `komentar_wisata`
---
-
-INSERT INTO `komentar_wisata` (`id_komentar`, `id_pengguna`, `id_wisata`, `komentar`, `created_at`, `updated_at`) VALUES
-(1, 197357386, 1071347239, 'Tes komentar', '2018-04-22 05:17:27', '2018-04-22 05:17:27'),
-(2, 1866353805, 1071347239, 'kamu ganteng', '2018-04-22 08:21:18', '2018-04-22 08:21:18');
 
 -- --------------------------------------------------------
 
@@ -234,6 +242,7 @@ CREATE TABLE `pengguna` (
 INSERT INTO `pengguna` (`id_pengguna`, `id_hak_akses`, `email`, `password`, `nama`, `tempat_lahir`, `tanggal_lahir`, `created_at`, `updated_at`) VALUES
 (197357386, 3, 'azhary.arliansyah@studentpartner.com', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'Palembang', '1996-08-05', '2018-04-21 12:53:48', '2018-04-21 12:53:48'),
 (707278361, 2, 'azhryarl@gmail.com', 'd8bba894a37a322932dc80e05de59fe3', 'Azh', 'Palembang', '1996-08-05', '2018-04-09 12:19:55', '2018-04-09 12:33:12'),
+(857957627, 4, 'azhary@puntikayu.com', '985fabf8f96dc1c4c306341031569937', 'Admin Punti Kayu', 'Palembang', '1996-08-05', '2018-05-08 12:20:19', '2018-05-08 12:20:19'),
 (1495442337, 1, 'arliansyah_azhary@yahoo.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Azhary Arliansyah', 'Palembang', '1996-08-05', '2018-04-09 12:17:45', '2018-04-09 12:17:45'),
 (1866353805, 3, 'muhammadfarhan280296@gmail.com', 'a645424d423aef1eb6c8da9fbfb123c0', 'muhammad farhan', 'Palembang', '1996-02-28', '2018-04-22 08:19:34', '2018-04-22 08:19:34');
 
@@ -252,14 +261,6 @@ CREATE TABLE `rating_wisata` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `rating_wisata`
---
-
-INSERT INTO `rating_wisata` (`id_rating`, `id_wisata`, `id_pengguna`, `rating`, `created_at`, `updated_at`) VALUES
-(1, 1071347239, 197357386, 4, '2018-04-22 06:48:27', '2018-04-22 06:51:29'),
-(2, 1071347239, 1866353805, 4, '2018-04-22 08:21:57', '2018-04-22 08:22:01');
-
 -- --------------------------------------------------------
 
 --
@@ -274,6 +275,8 @@ CREATE TABLE `wisata` (
   `foto` text NOT NULL,
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
+  `thumbnail` text NOT NULL,
+  `id_admin` bigint(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -282,12 +285,18 @@ CREATE TABLE `wisata` (
 -- Dumping data for table `wisata`
 --
 
-INSERT INTO `wisata` (`id_wisata`, `id_kategori`, `nama_wisata`, `deskripsi`, `foto`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
-(1071347239, 1, 'Punti Kayu', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc', '[\"1071347239_monpera1.jpg\",\"1071347239_360_0145.jpg\"]', -3.0108194139871656, 104.77217518530279, '2018-04-13 19:04:58', '2018-04-13 19:04:58');
+INSERT INTO `wisata` (`id_wisata`, `id_kategori`, `nama_wisata`, `deskripsi`, `foto`, `latitude`, `longitude`, `thumbnail`, `id_admin`, `created_at`, `updated_at`) VALUES
+(1071347239, 1, 'Punti Kayuu', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc', '[\"1071347239_monpera1.jpg\",\"1071347239_360_0145.jpg\"]', -3.0108194139871656, 104.77217518530279, '', 857957627, '2018-04-13 19:04:58', '2018-05-08 12:57:57');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `event`
+--
+ALTER TABLE `event`
+  ADD PRIMARY KEY (`id_event`);
 
 --
 -- Indexes for table `hak_akses`
@@ -366,17 +375,24 @@ ALTER TABLE `rating_wisata`
 --
 ALTER TABLE `wisata`
   ADD PRIMARY KEY (`id_wisata`),
-  ADD KEY `id_kategori_wisata` (`id_kategori`);
+  ADD KEY `id_kategori_wisata` (`id_kategori`),
+  ADD KEY `id_admin` (`id_admin`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `id_event` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `hak_akses`
 --
 ALTER TABLE `hak_akses`
-  MODIFY `id_hak_akses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_hak_akses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kategori_wisata`
@@ -388,7 +404,7 @@ ALTER TABLE `kategori_wisata`
 -- AUTO_INCREMENT for table `komentar_wisata`
 --
 ALTER TABLE `komentar_wisata`
-  MODIFY `id_komentar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_komentar` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kuesioner`
@@ -430,7 +446,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `rating_wisata`
 --
 ALTER TABLE `rating_wisata`
-  MODIFY `id_rating` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_rating` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wisata`
@@ -493,7 +509,8 @@ ALTER TABLE `rating_wisata`
 -- Constraints for table `wisata`
 --
 ALTER TABLE `wisata`
-  ADD CONSTRAINT `wisata_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori_wisata` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `wisata_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori_wisata` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `wisata_ibfk_2` FOREIGN KEY (`id_admin`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
