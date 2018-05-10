@@ -179,6 +179,8 @@ class Admin extends MY_Controller {
 		$this->load->model( 'hak_akses_m' );
 		$this->data['hak_akses']	= $this->hak_akses_m->get();
 		$this->load->model( 'kategori_wisata_m' );
+		$this->load->model( 'pengguna_m' );
+		$this->data['admin_wisata'] = $this->pengguna_m->get([ 'id_hak_akses' => 4 ]);
 
 		if ( $this->POST( 'submit' ) ) {
 
@@ -201,7 +203,8 @@ class Admin extends MY_Controller {
 				'foto'			=> json_encode( $foto ),
 				'latitude'		=> $this->POST( 'latitude' ),
 				'longitude'		=> $this->POST( 'longitude' ),
-				'id_kategori'	=> $this->POST( 'id_kategori' )
+				'id_kategori'	=> $this->POST( 'id_kategori' ),
+				'id_admin'		=> $this->POST( 'id_admin' )
 			];
 			$this->wisata_m->insert( $this->data['wisata'] );
 			

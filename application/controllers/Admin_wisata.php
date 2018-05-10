@@ -43,18 +43,54 @@ class Admin_wisata extends MY_Controller {
 
 		if ( $this->POST( 'edit' ) ) {
 
+			$num_img 		= $this->POST( 'num_img' );
+			$deleted_photos	= $this->POST( 'deleted_photos' );
+			$photos 		= json_decode( $this->data['wisata']->foto );
+
+			if ( isset( $deleted_photos ) ) {
+				$photos 		= array_diff( $photos, $deleted_photos );
+				foreach ( $deleted_photos as $deleted ) {
+					@unlink( FCPATH . '/assets/img/wisata/' . $deleted );
+				}
+			}
+
+			for ( $i = 0; $i < $num_img; $i++ ) {
+
+				if ( !empty( $_FILES['berkas' . ($i + 1)]['name'] ) ) {
+
+					$img_name = $this->data['id_wisata'] . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+					$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
+					$photos []= $img_name . '.jpg';
+
+				}
+
+			}
+
+
 			$this->data['wisata']	= [
 				'nama_wisata'	=> $this->POST( 'nama_wisata' ),
 				'deskripsi'		=> $this->POST( 'deskripsi' ),
+				'foto'			=> json_encode( $photos ),
 				'latitude'		=> $this->POST( 'latitude' ),
 				'longitude'		=> $this->POST( 'longitude' ),
 				'id_kategori'	=> $this->POST( 'id_kategori' ),
 				'updated_at'	=> date( 'Y-m-d H:i:s' )
 			];
+
+			if ( !empty( $_FILES['thumbnail']['name'] ) ) {
+
+				@unlink( FCPATH . '/assets/img/thumbnail/' . $this->data['wisata']->thumbnail );
+				$img_name = $this->data['id_wisata'] . '_' . pathinfo( $_FILES['thumbnail']['name'], PATHINFO_FILENAME );
+				$this->upload( $img_name, '/assets/img/thumbnail', 'thumbnail' );
+				$thumbnail = $img_name . '.jpg';
+				$this->data['wisata']['thumbnail'] = $thumbnail;
+
+			}
+
 			$this->wisata_m->update( $this->data['id_wisata'], $this->data['wisata'] );
 			$this->upload( $this->data['id_wisata'], '/assets/img/wisata', 'berkas' );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
-			redirect( 'admin-wisata/edit-wisata/' . $this->data['id_wisata'] );
+			redirect( 'admin-wisata/data-wisata' );
 			exit;
 
 		}

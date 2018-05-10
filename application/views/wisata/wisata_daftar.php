@@ -2,11 +2,10 @@
 		<div class="container">
 			<div class="row">
 				<?php foreach ( $wisata as $row ): ?>
-				<?php $foto = json_decode( $row->foto ); ?>
 				<div class="col-md-4 p-t-30">
 					<div class="blo1">
 						<div class="wrap-pic-blo1 bo-rad-10 hov-img-zoom">
-							<a href="<?= base_url( 'wisata/detail/' . $row->id_wisata ) ?>"><img src="<?= count( $foto ) > 0 ? base_url( 'assets/img/wisata/' . $foto[0] ) : base_url( 'assets/pato/images/intro-01.jpg' ) ?>" alt="IMG-THUMBNAIL"></a>
+							<a href="<?= base_url( 'wisata/detail/' . $row->id_wisata ) ?>"><img src="<?= !empty( $row->thumbnail ) ? base_url( 'assets/img/wisata/' . $row->thumbnail ) : base_url( 'assets/pato/images/intro-01.jpg' ) ?>" alt="IMG-THUMBNAIL"></a>
 						</div>
 
 						<div class="wrap-text-blo1 p-t-35">

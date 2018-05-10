@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2018 at 03:04 PM
+-- Generation Time: May 10, 2018 at 09:01 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -286,7 +286,7 @@ CREATE TABLE `wisata` (
 --
 
 INSERT INTO `wisata` (`id_wisata`, `id_kategori`, `nama_wisata`, `deskripsi`, `foto`, `latitude`, `longitude`, `thumbnail`, `id_admin`, `created_at`, `updated_at`) VALUES
-(1071347239, 1, 'Punti Kayuu', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc', '[\"1071347239_monpera1.jpg\",\"1071347239_360_0145.jpg\"]', -3.0108194139871656, 104.77217518530279, '', 857957627, '2018-04-13 19:04:58', '2018-05-08 12:57:57');
+(1071347239, 2, 'Punti Kayuu', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc', '[\"1071347239_38e47da3b9f02348958ca545019ea6bbfc40ca2d_hq.jpg\",\"1071347239_18814539_10208749137873327_7826059913393865436_o.jpg\"]', -3.0108194139871656, 104.77217518530279, '1071347239_38e47da3b9f02348958ca545019ea6bbfc40ca2d_hq.jpg', 857957627, '2018-04-13 19:04:58', '2018-05-10 06:58:11');
 
 --
 -- Indexes for dumped tables
