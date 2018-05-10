@@ -67,6 +67,15 @@
                                 <input id="longitude" type="number" step="any" name="longitude" class="form-control" required>
                             </div>
 
+                            <div class="form-group">
+                                <label for="admin_wisata">Admin Wisata</label>
+                                <select class="form-control" name="id_admin">
+                                    <?php foreach ( $admin_wisata as $admin ): ?>
+                                        <option value="<?= $admin->id_pengguna ?>"><?= $admin->nama ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
 
                             <input type="submit" name="submit" value="Tambah" class="btn btn-primary">
 

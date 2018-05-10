@@ -38,8 +38,21 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="foto">Foto</label>
-                                <input type="file" accept="image/*" name="berkas">
+                                <label for="thumbnail">Thumbnail</label>
+                                <input type="file" name="thumbnail" accept="image/*" class="form-control">
+                            </div>
+
+                            <?php $foto = json_decode( $wisata->foto ); ?>
+                            <input type="hidden" name="num_img" value="<?= count( $foto ) ?>" id="num-img">
+                            <button type="button" id="tambah-foto-btn" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Foto</button>
+                            <div id="foto-container">
+                                <?php $i = 0; foreach ( $foto as $f ): ?>
+                                <div class="form-group">
+                                    <label for="foto">Foto <?= ++$i ?> <button onclick="hapus_foto( '<?= $f ?>', this );" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button></label><br>
+                                    <img src="<?= base_url( 'assets/img/wisata/' . $f ) ?>" width="150" height="150">
+                                    <input type="file" name="berkas<?= $i ?>" accept="image/*" class="form-control">
+                                </div>
+                                <?php endforeach; ?>
                             </div>
 
                             <div class="form-group">
@@ -51,6 +64,7 @@
                                 <label for="longitude">Longitude</label>
                                 <input type="text" value="<?= $wisata->longitude ?>" name="longitude" class="form-control">
                             </div>
+                            <div id="deleted-photos"></div>
 
                             <input type="submit" name="edit" value="Edit" class="btn btn-primary">
 
@@ -66,3 +80,30 @@
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+        <script type="text/javascript">
+
+            $( document ).ready(function() {
+
+                var idx = <?= count( $foto ) ?>;
+
+                $( '#tambah-foto-btn' ).on('click', function() {
+
+                    $( '#foto-container' ).append('<div class="form-group">' +
+                        '<label for="foto">Foto ' + (++idx) + '</label>' +
+                        '<input type="file" name="berkas' + idx + '" accept="image/*" class="form-control" required>' +
+                    '</div>');
+
+                    $( '#num-img' ).val( idx );
+
+                });
+
+            });
+
+            function hapus_foto( nama_foto, el ) {
+
+                $( el ).parent().parent().remove();
+                $( '#deleted-photos' ).append( '<input type="hidden" name="deleted_photos[]" value="' + nama_foto + '" />' );
+
+            }
+        </script>
