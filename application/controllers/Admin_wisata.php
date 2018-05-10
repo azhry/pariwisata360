@@ -71,15 +71,95 @@ class Admin_wisata extends MY_Controller {
 	}	
 
 	public function data_event() {
+		
+		$this->load->model( 'event_m' );
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
 
+			$this->data['id_event']		= $this->uri->segment( 3 );		
+			$this->data['event']		= $this->event_m->get_row([ 'id_event' => $this->data['id_event'] ]);
+			if ( isset( $this->data['id_event'] ) ) {
+
+				$this->event_m->delete( $this->data['id_event'] );
+				$imgs = json_decode( $this->data['event']->foto );
+				foreach ( $imgs as $img ) {
+					@unlink( realpath( FCPATH . '/assets/img/wisata/' . $img ) );
+				}
+				$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			
+			} else {
+
+				$this->flashmsg( '<i class="fa fa-times"></i> Data tidak ditemukan', 'danger' );
+			}
+			
+			redirect( 'admin/data-event' );
+			exit;
+
+		}
+
+		$this->data['event']	= $this->event_m->get();
+		$this->data['title']	= 'Data Event';
+		$this->data['content']	= 'admin_wisata/event_data';
+		$this->template( $this->data, 'admin_wisata' );	
+		
 	}
 
 	public function tambah_event() {
 
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->load->model( 'event_m' );
+			$id_event 	= $this->__generate_random_id();
+			$num_img 	= $this->POST( 'num_img' );
+			$foto		= [];
+			for ( $i = 0; $i < $num_img; $i++ ) {
+				
+				$img_name = $id_event . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+				$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
+				$foto []= $img_name . '.jpg';
+
+			} 
+			$this->data['event'] = [
+				'id_event'		=> $id_event,
+				'nama_event' 	=> $this->POST('nama_event'),
+				'deskripsi'		=> $this->POST('deskripsi'),
+				'foto'			=> json_encode( $foto )
+			];
+			$this->event_m->insert( $this->data['event'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil ditambahkan' );
+			redirect( 'admin-wisata/data-event' );
+			exit;
+
+		}
+		$this->data['title']	= 'Tambah Event';
+		$this->data['content']	= 'admin_wisata/event_tambah';
+		$this->template( $this->data, 'admin_wisata' );
 	}
 
 	public function edit_event() {
 
+		$this->data['id_event']	= $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_event'] ) );
+
+		$this->load->model( 'event_m' );
+		
+		if ( $this->POST( 'edit' ) ) {
+
+			$this->data['event'] = [				
+				'nama_event' 	=> $this->POST('nama_event'),
+				'deskripsi'		=> $this->POST('deskripsi')
+			];
+			$this->event_m->update( $this->data['id_event'], $this->data['event'] );
+			$this->upload( $this->data['id_event'], '/assets/img/wisata', 'berkas' );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
+			redirect( 'admin-wisata/edit-event/' . $this->data['id_event'] );
+			exit;
+
+		}
+		$this->data['event']	= $this->event_m->get_row([ 'id_event' => $this->data['id_event'] ]);
+		$this->data['title']	= 'Edit Event';
+		$this->data['content']	= 'admin_wisata/event_edit';
+		$this->template( $this->data, 'admin_wisata' );
 	}
 
 }
