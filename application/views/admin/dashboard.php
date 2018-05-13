@@ -105,6 +105,19 @@
 	                        </div>
                 		</a>
                     </div>
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
+                        <a href="<?= base_url( 'admin/data-event' ) ?>">
+                            <div class="white-box analytics-info">
+                                <h3 class="box-title">Data Event</h3>
+                                <ul class="list-inline two-part">
+                                    <li>
+                                        <i style="font-size: 40px;" class="fa fa-calendar-check-o"></i>
+                                    </li>
+                                    <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success"><?= count( 'event' ) ?></span></li>
+                                </ul>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- /.container-fluid -->

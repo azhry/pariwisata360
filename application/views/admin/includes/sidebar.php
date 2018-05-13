@@ -31,6 +31,9 @@
                     <li>
                         <a href="<?= base_url( 'admin/data-kuesioner' ) ?>" class="waves-effect"><i class="fa fa-list-ol fa-fw" aria-hidden="true"></i>Data Kuesioner Wisata</a>
                     </li>
+                    <li>
+                        <a href="<?= base_url( 'admin/data-event' ) ?>" class="waves-effect"><i class="fa fa-calendar-check-o fa-fw" aria-hidden="true"></i>Data Event</a>
+                    </li>
                 </ul>
             </div>
         </div>
