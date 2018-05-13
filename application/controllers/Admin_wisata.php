@@ -128,7 +128,7 @@ class Admin_wisata extends MY_Controller {
 				$this->flashmsg( '<i class="fa fa-times"></i> Data tidak ditemukan', 'danger' );
 			}
 			
-			redirect( 'admin/data-event' );
+			redirect( 'admin-wisata/data-event' );
 			exit;
 
 		}
@@ -173,29 +173,63 @@ class Admin_wisata extends MY_Controller {
 	}
 
 	public function edit_event() {
-
 		$this->data['id_event']	= $this->uri->segment( 3 );
 		$this->check_allowance( !isset( $this->data['id_event'] ) );
 
+		$this->config->load( 'app' );
+		$this->data['GOOGLE_MAPS_API_KEY'] = $this->config->item( 'GOOGLE_MAPS_API_KEY' );
+
 		$this->load->model( 'event_m' );
+
+		$this->data['event']		= $this->event_m->get_row([ 'id_event' => $this->data['id_event'] ]);
+		$this->check_allowance( !isset( $this->data['event'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
 		
+
 		if ( $this->POST( 'edit' ) ) {
 
-			$this->data['event'] = [				
-				'nama_event' 	=> $this->POST('nama_event'),
-				'deskripsi'		=> $this->POST('deskripsi')
+			$num_img 		= $this->POST( 'num_img' );
+			$deleted_photos	= $this->POST( 'deleted_photos' );
+			$photos 		= json_decode( $this->data['event']->foto );
+
+			if ( isset( $deleted_photos ) ) {
+				$photos 		= array_diff( $photos, $deleted_photos );
+				foreach ( $deleted_photos as $deleted ) {
+					@unlink( FCPATH . '/assets/img/wisata/' . $deleted );
+				}
+			}
+
+			for ( $i = 0; $i < $num_img; $i++ ) {
+
+				if ( !empty( $_FILES['berkas' . ($i + 1)]['name'] ) ) {
+
+					$img_name = $this->data['id_wisata'] . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+					$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
+					$photos []= $img_name . '.jpg';
+
+				}
+
+			}
+
+
+			$this->data['event']	= [
+				'nama_event'	=> $this->POST( 'nama_event' ),
+				'deskripsi'		=> $this->POST( 'deskripsi' ),
+				'foto'			=> json_encode( $photos )
 			];
+
 			$this->event_m->update( $this->data['id_event'], $this->data['event'] );
 			$this->upload( $this->data['id_event'], '/assets/img/wisata', 'berkas' );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
-			redirect( 'admin-wisata/edit-event/' . $this->data['id_event'] );
+			redirect( 'admin-wisata/edit-event/'. $this->data['id_event'] );
 			exit;
 
 		}
-		$this->data['event']	= $this->event_m->get_row([ 'id_event' => $this->data['id_event'] ]);
-		$this->data['title']	= 'Edit Event';
-		$this->data['content']	= 'admin_wisata/event_edit';
+
+		
+		$this->data['title']			= 'Edit Event';
+		$this->data['content']			= 'admin_wisata/event_edit';
 		$this->template( $this->data, 'admin_wisata' );
+
 	}
 
 }

@@ -1,4 +1,4 @@
-        <!-- ============================================================== -->
+                <!-- ============================================================== -->
         <!-- Page Content -->
         <!-- ============================================================== -->
         <div id="page-wrapper">
@@ -9,7 +9,6 @@
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
                             <li><a href="<?= base_url( 'admin-wisata/index' ) ?>">Dashboard</a></li>
-                            <li><a href="<?= base_url( 'admin-wisata/data-event' ) ?>">Data Wisata</a></li>
                             <li class="active"><?= $title ?></li>
                         </ol>
                     </div>
@@ -21,10 +20,10 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin-wisata/edit-event/' . $id_event ) ?>
+                            <?= form_open_multipart( 'admin-wisata/edit-event/'. $id_event ) ?>
 
                             <div class="form-group">
-                                <label for="nama_event">Nama Event</label>
+                                <label for="nama_wisata">Nama Event</label>
                                 <input type="text" value="<?= $event->nama_event ?>" name="nama_event" class="form-control" required>
                             </div>
 
@@ -33,10 +32,20 @@
                                 <input type="text" value="<?= $event->deskripsi ?>" name="deskripsi" class="form-control" required>
                             </div>
 
-                            <div class="form-group">
-                                <label for="foto">Foto</label>
-                                <input type="file" accept="image/*" name="berkas">
+                            <?php $foto = json_decode( $event->foto ); ?>
+                            <input type="hidden" name="num_img" value="<?= count( $foto ) ?>" id="num-img">
+                            <button type="button" id="tambah-foto-btn" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Foto</button>
+                            <div id="foto-container">
+                                <?php $i = 0; foreach ( $foto as $f ): ?>
+                                <div class="form-group">
+                                    <label for="foto">Foto <?= ++$i ?> <button onclick="hapus_foto( '<?= $f ?>', this );" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button></label><br>
+                                    <img src="<?= base_url( 'assets/img/wisata/' . $f ) ?>" width="150" height="150">
+                                    <input type="file" name="berkas<?= $i ?>" accept="image/*" class="form-control">
+                                </div>
+                                <?php endforeach; ?>
                             </div>
+
+                            <div id="deleted-photos"></div>
 
                             <input type="submit" name="edit" value="Edit" class="btn btn-primary">
 
@@ -52,3 +61,30 @@
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+        <script type="text/javascript">
+
+            $( document ).ready(function() {
+
+                var idx = <?= count( $foto ) ?>;
+
+                $( '#tambah-foto-btn' ).on('click', function() {
+
+                    $( '#foto-container' ).append('<div class="form-group">' +
+                        '<label for="foto">Foto ' + (++idx) + '</label>' +
+                        '<input type="file" name="berkas' + idx + '" accept="image/*" class="form-control" required>' +
+                    '</div>');
+
+                    $( '#num-img' ).val( idx );
+
+                });
+
+            });
+
+            function hapus_foto( nama_foto, el ) {
+
+                $( el ).parent().parent().remove();
+                $( '#deleted-photos' ).append( '<input type="hidden" name="deleted_photos[]" value="' + nama_foto + '" />' );
+
+            }
+        </script>
