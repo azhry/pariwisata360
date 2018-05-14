@@ -24,6 +24,10 @@
 								</li>
 
 								<li>
+									<a href="<?= base_url( 'wisata/list-event' ) ?>">Event</a>
+								</li>								
+
+								<li>
 									<a href="<?= base_url( 'wisata/galeri' ) ?>">Galeri</a>
 								</li>
 

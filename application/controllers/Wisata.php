@@ -196,6 +196,32 @@ class Wisata extends MY_Controller {
 
 	}
 
+	public function list_event() {
+
+		$this->load->model( 'event_m' );
+		$this->data['list_event'] 	= $this->event_m->get_by_order( 'created_at', 'DESC' );
+		$this->data['title']		= 'List Event';
+		$this->data['content']		= 'wisata/event_list';
+		$this->template( $this->data, 'wisata' );
+
+	}
+
+	public function detail_event() {
+
+		$this->data['id_event']		= $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_event'] ) );
+
+		$this->load->model( 'event_m' );
+		$this->data['event']		= $this->event_m->get_row([ 'id_event' => $this->data['id_event'] ]);
+		$this->check_allowance( !$this->data['event'], [ 'Data event tidak ditemukan', 'danger' ] );
+
+		$this->data['foto']			= json_decode( $this->data['event']->foto );
+		$this->data['title']		= $this->data['event']->nama_event;
+		$this->data['content']		= 'wisata/event_detail';
+		$this->template( $this->data, 'wisata' );
+
+	}
+
 	public function galeri() {
 
 		echo 'Galeri';
