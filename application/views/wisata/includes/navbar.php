@@ -6,7 +6,7 @@
 				<div class="wrap_header trans-0-3">
 					<!-- Logo -->
 					<div class="logo">
-						<a href="<?= base_url( 'assets/pato' ) ?>/index.html">
+						<a href="<?= base_url( 'wisata' ) ?>">
 							<img src="<?= base_url( 'assets/pato' ) ?>/images/icons/logo.png" alt="IMG-LOGO" data-logofixed="<?= base_url( 'assets/pato' ) ?>/images/icons/logo2.png">
 						</a>
 					</div>
@@ -29,10 +29,6 @@
 
 								<li>
 									<a href="<?= base_url( 'wisata/galeri' ) ?>">Galeri</a>
-								</li>
-
-								<li>
-									<a href="<?= base_url( 'wisata/tentang' ) ?>">Tentang</a>
 								</li>
 
 								<li>

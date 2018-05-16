@@ -1,4 +1,4 @@
-	<!-- Slide1 -->
+			<!-- Slide1 -->
 	<section class="section-slide">
 		<div class="wrap-slick1">
 			<div class="slick1">
@@ -210,8 +210,12 @@
 						<div class="col-sm-6">
 							<!-- Item our menu -->
 							<div class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30">
-								<img src="<?= base_url( 'assets/img/thumbnail/1071347239_38e47da3b9f02348958ca545019ea6bbfc40ca2d_hq.jpg' ) ?>" alt="IMG-MENU">
+								<img src="<?= base_url( 'assets/pato' ) ?>/images/our-menu-01.jpg" alt="IMG-MENU">
 
+								<!-- Button2 -->
+								<a href="#" class="btn2 flex-c-m txt5 ab-c-m size4">
+									Lunch
+								</a>
 							</div>
 						</div>
 
@@ -221,8 +225,20 @@
 								<img src="<?= base_url( 'assets/pato' ) ?>/images/our-menu-05.jpg" alt="IMG-MENU">
 
 								<!-- Button2 -->
-								<a href="<?= base_url( 'wisata/galeri' ) ?>" class="btn2 flex-c-m txt5 ab-c-m size5">
-									Galeri
+								<a href="#" class="btn2 flex-c-m txt5 ab-c-m size5">
+									Dinner
+								</a>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<!-- Item our menu -->
+							<div class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30">
+								<img src="<?= base_url( 'assets/pato' ) ?>/images/our-menu-13.jpg" alt="IMG-MENU">
+
+								<!-- Button2 -->
+								<a href="#" class="btn2 flex-c-m txt5 ab-c-m size6">
+									Happy Hour
 								</a>
 							</div>
 						</div>
@@ -236,6 +252,10 @@
 							<div class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30">
 								<img src="<?= base_url( 'assets/pato' ) ?>/images/our-menu-08.jpg" alt="IMG-MENU">
 
+								<!-- Button2 -->
+								<a href="#" class="btn2 flex-c-m txt5 ab-c-m size7">
+									Drink
+								</a>
 							</div>
 						</div>
 
@@ -244,6 +264,22 @@
 							<div class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30">
 								<img src="<?= base_url( 'assets/pato' ) ?>/images/our-menu-10.jpg" alt="IMG-MENU">
 
+								<!-- Button2 -->
+								<a href="#" class="btn2 flex-c-m txt5 ab-c-m size8">
+									Starters
+								</a>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<!-- Item our menu -->
+							<div class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30">
+								<img src="<?= base_url( 'assets/pato' ) ?>/images/our-menu-16.jpg" alt="IMG-MENU">
+
+								<!-- Button2 -->
+								<a href="#" class="btn2 flex-c-m txt5 ab-c-m size9">
+									Dessert
+								</a>
 							</div>
 						</div>
 					</div>
@@ -345,55 +381,7 @@
 					</div>
 				</div>
 
-				<?php for ( $i = 0; $i < count( $event ); $i++ ): ?>
-					<?php if ( $i > 2 ) break; ?>
-				<div class="item-slick2 item2-slick2" style="background-image: url(<?= base_url( 'assets/pato' ) ?>/images/bg-event-02.jpg);">
-					<div class="wrap-content-slide2 p-t-115 p-b-208">
-						<div class="container">
-							<!-- - -->
-							<div class="title-event t-center m-b-52">
-								<span class="tit2 p-l-15 p-r-15">
-									Upcomming
-								</span>
-
-								<h3 class="tit6 t-center p-l-15 p-r-15 p-t-3">
-									Events
-								</h3>
-							</div>
-
-							<!-- Block2 -->
-							<div class="blo2 flex-w flex-str flex-col-c-m-lg animated visible-false" data-appear="fadeInDown">
-								<!-- Pic block2 -->
-								<?php $foto = json_decode( $event[$i]->foto ); ?>
-								<a href="#" class="wrap-pic-blo2 bg2-blo2" style="background-image: url(<?= base_url( 'assets/img/wisata/' . $foto[0] ) ?>);">
-									<div class="time-event size10 txt6 effect1">
-										<span class="txt-effect1 flex-c-m">
-										</span>
-									</div>
-								</a>
-
-								<!-- Text block2 -->
-								<div class="wrap-text-blo2 flex-col-c-m p-l-40 p-r-40 p-t-45 p-b-30">
-									<h4 class="tit7 t-center m-b-10">
-										<?= $event[$i]->nama_event ?>
-									</h4>
-
-									<p class="t-center">
-										<?= substr( $event[$i]->deskripsi , 0, 250) ?>
-									</p>
-
-									<a href="<?= base_url( 'wisata/detail-event/' . $event[$i]->id_event ) ?>" class="txt4 m-t-40">
-										View Details
-										<i class="fa fa-long-arrow-right m-l-10" aria-hidden="true"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<?php endfor; ?>
-			</div>
-
+				
 			<div class="wrap-slick2-dots"></div>
 		</div>
 	</section>

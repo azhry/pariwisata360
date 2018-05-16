@@ -11,6 +11,8 @@ class Wisata extends MY_Controller {
 
 	public function index() {
 
+		$this->load->model( 'event_m' );
+		$this->data['event']	= $this->event_m->get_by_order( 'created_at', 'DESC' );
 		$this->data['title']	= 'Tempat Wisata';
 		$this->data['content']	= 'wisata/home';
 		$this->template( $this->data, 'wisata' );
@@ -224,19 +226,18 @@ class Wisata extends MY_Controller {
 
 	public function galeri() {
 
-		echo 'Galeri';
+		$this->data['title']		= 'Galeri';
+		$this->data['content']		= 'wisata/galeri';
+		$this->template( $this->data, 'wisata' );
 
 	}
 
-	public function tentang() {
-
-		echo 'Tentang';
-
-	}
 
 	public function kontak() {
 
-		echo 'Kontak';
+		$this->data['title']		= 'Kontak';
+		$this->data['content']		= 'wisata/kontak';
+		$this->template( $this->data, 'wisata' );
 
 	}
 
