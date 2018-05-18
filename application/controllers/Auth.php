@@ -71,14 +71,21 @@ class Auth extends MY_Controller
 			if ( $password === $confirm_password ) {
 
 				$this->load->model( 'pengguna_m' );
+				$id_pengguna = $this->__generate_random_id();
+			
+				$img_name = $id_pengguna . '_' . pathinfo( $_FILES['berkas']['name'], PATHINFO_FILENAME );
+				$img_name = str_replace(" ", "_", $img_name);
+				$this->upload( $img_name, '/assets/img/wisata/', 'berkas' );
+				$img_name .= '.jpg';
 				$this->data['pengguna'] = [
-					'id_pengguna'	=> $this->__generate_random_id(),
+					'id_pengguna'	=> $id_pengguna,
 					'id_hak_akses'	=> 3,
 					'email'			=> $this->POST( 'email' ),
 					'password'		=> $password,
 					'nama'			=> $this->POST( 'nama' ),
 					'tempat_lahir'	=> $this->POST( 'tempat_lahir' ),
-					'tanggal_lahir'	=> $this->POST( 'tanggal_lahir' )
+					'tanggal_lahir'	=> $this->POST( 'tanggal_lahir' ),
+					'foto'			=> $img_name
 				];
 				$this->pengguna_m->insert( $this->data['pengguna'] );
 				$this->flashmsg( 'Pendaftaran berhasil. Silahkan login menggunakan akun yang telah didaftarkan' );

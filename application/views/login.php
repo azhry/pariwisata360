@@ -152,7 +152,7 @@
                                         </div>
                                     </div>
                                 <?= form_close() ?>
-                                <?= form_open( 'auth', [ 'id' => 'register-form', 'role' => 'form', 'style' => 'display: none;' ] ) ?>
+                                <?= form_open_multipart( 'auth', [ 'id' => 'register-form', 'role' => 'form', 'style' => 'display: none;' ] ) ?>
                                     <div class="form-group">
                                         <input type="email" name="email" id="register-email" tabindex="1" class="form-control" placeholder="Email" value="">
                                     </div>
@@ -170,6 +170,10 @@
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="tanggal_lahir" id="tanggal_lahir" class="form-control" placeholder="Tanggal Lahir" tabindex="2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="foto">Foto Profil</label>
+                                        <input type="file" name="berkas" accept="image/*" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
