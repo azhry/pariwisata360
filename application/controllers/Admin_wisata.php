@@ -232,4 +232,137 @@ class Admin_wisata extends MY_Controller {
 
 	}
 
+
+	public function pertanyaan_kuesioner() {
+
+		$this->load->model( 'wisata_m' );
+		$this->data['id_wisata'] = $this->wisata_m->get_row([ 'id_admin' => $this->session->userdata( 'id_pengguna' ) ])->id_wisata;
+		$this->check_allowance( !isset( $this->data['id_wisata'] ) );
+
+		$this->load->model( 'pertanyaan_kuesioner_m' );
+		$this->data['action'] 	= $this->uri->segment( 4 );
+		if ( isset( $this->data['action'] ) && $this->data['action'] == 'delete' ) {
+
+			$this->data['id_pertanyaan']	= $this->uri->segment( 3 );
+			$this->pertanyaan_kuesioner_m->delete( $this->data['id_pertanyaan'] );
+			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil dihapus' );
+			redirect( 'admin_wisata/pertanyaan-kuesioner' );
+			exit;
+
+		}
+				
+		$this->load->model( 'kuesioner_m' );
+		$this->data['kuesioner']	= $this->kuesioner_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
+		$this->data['id_kuesioner'] = $this->data['kuesioner']->id_kuesioner;
+		$this->check_allowance( !isset( $this->data['kuesioner'] ), [ 'Data not found', 'danger' ] );
+
+		$this->load->model( 'kuesioner_jawaban_pengguna_m' );
+		$this->data['overall_score'] = $this->kuesioner_jawaban_pengguna_m->get_overall_score( $this->data['id_kuesioner'] );
+
+		$this->load->model( 'kuesioner_pertanyaan_m' );
+		$this->data['pertanyaan'] = $this->kuesioner_pertanyaan_m->get([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+		$this->load->model( 'kuesioner_pertanyaan_kategori_m' );
+		$this->data['kategori'] = $this->kuesioner_pertanyaan_kategori_m->get();
+
+		$this->data['title']	= 'Pertanyaan Kuesioner';
+		$this->data['content']	= 'admin_wisata/kuesioner_pertanyaan_data';
+		$this->template( $this->data, 'admin_wisata' );
+
+	}
+
+	public function tambah_pertanyaan_kuesioner() {
+
+		$this->data['id_kuesioner'] = $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_kuesioner'] ) );
+
+		$this->load->model( 'kuesioner_m' );
+		$this->load->model( 'kuesioner_pertanyaan_kategori_m' );
+
+		// if button with name=submit is clicked
+		if ( $this->POST( 'submit' ) ) {
+
+			$this->load->model( 'kuesioner_pertanyaan_m' );
+			$this->load->model( 'kuesioner_jawaban_m' );
+			
+			// encapsulate question to be inserted
+			$this->data['pertanyaan']	= [
+				'pertanyaan'	=> $this->POST( 'pertanyaan' ),
+				'id_kategori'	=> $this->POST( 'id_kategori' ),
+				'id_kuesioner'	=> $this->data['id_kuesioner'],
+				'id_pertanyaan'	=> $this->__generate_random_id()
+			];
+
+			// insert question to kuesioner_pertanyaan table
+			$this->kuesioner_pertanyaan_m->insert( $this->data['pertanyaan'] );
+
+			// get last inserted primary key id
+			$id_pertanyaan = $this->db->insert_id();
+
+			// get jawaban and nilai data which passed as an array
+			$jawaban 	= $this->POST( 'jawaban' );
+			$nilai		= $this->POST( 'nilai' );
+
+			// insert jawaban and nilai one by one
+			for ( $i = 0; $i < count( $jawaban ) && $i < count( $nilai ); $i++ ) {
+
+				$this->kuesioner_jawaban_m->insert([
+					'id_pertanyaan'	=> $id_pertanyaan,
+					'jawaban'		=> $jawaban[$i],
+					'nilai'			=> $nilai[$i],
+					'id_jawaban'	=> $this->__generate_random_id()
+				]);
+
+			}
+
+			$this->flashmsg( '<i class="fa fa-check"></i> Pertanyaan kuesioner berhasil ditambahkan' );
+			redirect( 'admin_wisata/pertanyaan-kuesioner/' . $this->data['id_kuesioner'] );
+			exit;
+
+		}
+
+		$this->data['kategori']		= $this->kuesioner_pertanyaan_kategori_m->get();
+		$this->data['kuesioner'] 	= $this->kuesioner_m->get_row([ 'id_kuesioner' => $this->data['id_kuesioner'] ]);
+		$this->data['title']		= 'Tambah Pertanyaan ' . $this->data['kuesioner']->nama_kuesioner;
+		$this->data['content']		= 'admin_wisata/kuesioner_pertanyaan_tambah';
+		$this->template( $this->data, 'admin_wisata' );
+	}
+
+	public function edit_pertanyaan_kuesioner() {
+
+		// irsyad
+		$this->data['id_pertanyaan'] = $this->uri->segment( 3 );
+		$this->check_allowance( !isset( $this->data['id_pertanyaan'] ) );
+
+		$this->load->model( 'kuesioner_pertanyaan_kategori_m' );
+		$this->load->model( 'kuesioner_pertanyaan_m' );
+		$this->load->model( 'kuesioner_m' );
+		$this->load->model( 'kuesioner_jawaban_m' );
+
+		// if button with name=edit is clicked
+		if ( $this->POST( 'edit' ) ) {
+			
+			// encapsulate question to be inserted
+			$this->data['pertanyaan']	= [
+				'pertanyaan'	=> $this->POST( 'pertanyaan' ),
+				'id_kategori'	=> $this->POST( 'id_kategori' ),
+			];
+
+			// update question to kuesioner_pertanyaan table
+			$this->kuesioner_pertanyaan_m->update( $this->data['id_pertanyaan'] , $this->data['pertanyaan'] );
+
+			$this->flashmsg( '<i class="fa fa-check"></i> Pertanyaan kuesioner berhasil di edit' );
+			redirect( 'admin_wisata/edit-pertanyaan-kuesioner/' . $this->data['id_pertanyaan'] );
+			exit;
+
+		}
+
+		$this->data['kategori']		= $this->kuesioner_pertanyaan_kategori_m->get();
+		$this->data['pertanyaan'] 	= $this->kuesioner_pertanyaan_m->get_row([ 'id_pertanyaan' => $this->data['id_pertanyaan'] ]);
+		$this->data['kuesioner']	= $this->kuesioner_m->get_row([ 'id_kuesioner' => $this->data['pertanyaan']->id_kuesioner]);
+		$this->data['jawaban'] 		= $this->kuesioner_jawaban_m->get([ 'id_pertanyaan' => $this->data['id_pertanyaan'] ]);
+		$this->data['title']		= 'Edit Pertanyaan ' . $this->data['kuesioner']->nama_kuesioner;
+		$this->data['content']		= 'admin_wisata/kuesioner_pertanyaan_edit';
+		$this->template( $this->data, 'admin_wisata' );
+	}
+
 }
