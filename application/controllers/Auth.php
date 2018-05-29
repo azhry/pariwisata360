@@ -75,7 +75,7 @@ class Auth extends MY_Controller
 			
 				$img_name = $id_pengguna . '_' . pathinfo( $_FILES['berkas']['name'], PATHINFO_FILENAME );
 				$img_name = str_replace(" ", "_", $img_name);
-				$this->upload( $img_name, '/assets/img/wisata/', 'berkas' );
+				$this->upload( $img_name, '/assets/img/profil/', 'berkas' );
 				$img_name .= '.jpg';
 				$this->data['pengguna'] = [
 					'id_pengguna'	=> $id_pengguna,
