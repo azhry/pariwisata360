@@ -48,7 +48,7 @@
 						<div class="wrap-content-slide3 p-b-50 p-t-50">
 							<div class="container">
 								<div class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false" data-appear="zoomIn">
-									<img src="<?= base_url( 'assets/img/profil/'. $komentar->foto ) ?>" alt="IMG-AVATAR">
+									<img src="<?= base_url( 'assets/img/profil/'. $komentar->foto ) ?>" alt="IMG-AVATAR" onerror="this.src = '<?= base_url( 'assets/pato/images/avatar-01.jpg' ) ?>';">
 								</div>
 
 								<div class="content-review m-t-33 animated visible-false" data-appear="fadeInUp">
