@@ -20,6 +20,10 @@
 								</li>
 
 								<li>
+									<a href="<?= base_url( 'profil' ) ?>">Profil</a>
+								</li>
+
+								<li>
 									<a href="<?= base_url( 'wisata/kategori' ) ?>">Wisata</a>
 								</li>
 
