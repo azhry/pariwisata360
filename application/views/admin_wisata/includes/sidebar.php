@@ -11,7 +11,13 @@
                         <a href="<?= base_url( 'admin-wisata/index' ) ?>" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url( 'admin-wisata/data-wisata' ) ?>" class="waves-effect"><i class="fa fa-edit fa-fw" aria-hidden="true"></i>Data Wisata</a>
+                        <a href="<?= base_url( 'admin-wisata/data-wisata' ) ?>" class="waves-effect"><i class="fa fa-globe fa-fw" aria-hidden="true"></i>Data Wisata</a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url( 'admin-wisata/data-event' ) ?>" class="waves-effect"><i class="fa fa-calendar-check-o fa-fw" aria-hidden="true"></i>Data Event</a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url( 'admin-wisata/pertanyaan-kuesioner' ) ?>" class="waves-effect"><i class="fa fa-list-ol fa-fw" aria-hidden="true"></i>Data Kuesioner</a>
                     </li>
                 </ul>
             </div>
