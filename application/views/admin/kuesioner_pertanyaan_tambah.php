@@ -20,7 +20,7 @@
                             <h3 class="box-title"><?= $title ?></h3> 
                             
                             <?= $this->session->flashdata( 'msg' ) ?>
-                            <?= form_open_multipart( 'admin_wisata/tambah-pertanyaan-kuesioner/' . $id_kuesioner ) ?>
+                            <?= form_open_multipart( 'admin/tambah-pertanyaan-kuesioner/' . $id_kuesioner ) ?>
 
                             <div class="form-group">
                                 <label for="pertanyaan">Pertanyaan</label>
