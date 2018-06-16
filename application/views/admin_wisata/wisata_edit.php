@@ -42,17 +42,25 @@
                                 <input type="file" name="thumbnail" accept="image/*" class="form-control">
                             </div>
 
-                            <?php $foto = json_decode( $wisata->foto ); ?>
-                            <input type="hidden" name="num_img" value="<?= count( $foto ) ?>" id="num-img">
+                            <input type="hidden" name="num_img" value="<?= count($foto) ?>" id="num-img">
                             <button type="button" id="tambah-foto-btn" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Foto</button>
+                            <br><br>
                             <div id="foto-container">
-                                <?php $i = 0; foreach ( $foto as $f ): ?>
+                                <?php for ($i = 0; $i < count($foto); $i++): ?>
                                 <div class="form-group">
-                                    <label for="foto">Foto <?= ++$i ?> <button onclick="hapus_foto( '<?= $f ?>', this );" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button></label><br>
-                                    <img src="<?= base_url( 'assets/img/wisata/' . $f ) ?>" width="150" height="150">
-                                    <input type="file" name="berkas<?= $i ?>" accept="image/*" class="form-control">
+                                    <label for="foto">Foto <?= $i + 1 ?></label>
+                                    <button type="button" onclick="hapusFoto(this);" class="btn btn-danger btn-xs"><i class="fa fa-close"></i></button>
+                                    <br><br>
+                                    <img src="<?= base_url('assets/img/wisata/' . $foto[$i]) ?>" width="100" height="100"><br>
+                                    <input type="file" name="berkas<?= $i + 1 ?>" accept="image/*" class="form-control">
+                                    <input type="hidden" name="berkas_idx" value="<?= $i ?>">
                                 </div>
-                                <?php endforeach; ?>
+                                <?php endfor; ?>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="koordinat">Pilih Koordinat</label>
+                                <div id="map" style="width: 100%; height: 300px;"></div>
                             </div>
 
                             <div class="form-group">
@@ -82,10 +90,60 @@
         <!-- ============================================================== -->
 
         <script type="text/javascript">
+            var map;
+            function initMap() {
+
+                let plgLat = -2.990934;
+                let plgLng = 104.756554;
+                let plgPos = new google.maps.LatLng( plgLat, plgLng );
+                map = new google.maps.Map(document.getElementById( 'map' ), {
+                    center: plgPos,
+                    zoom: 12
+                });
+
+                document.getElementById( 'latitude' ).value     = plgLat;
+                document.getElementById( 'longitude' ).value    = plgLng;
+
+                let plgMarker = new google.maps.Marker({
+                    position: plgPos,
+                    map: map
+                });
+
+                google.maps.event.addListener(map, 'click', function( event ) {
+
+                    let latLng = new google.maps.LatLng( event.latLng.lat(), event.latLng.lng() );
+                    plgMarker.setPosition( latLng );
+                    document.getElementById( 'latitude' ).value     = event.latLng.lat();
+                    document.getElementById( 'longitude' ).value    = event.latLng.lng();
+
+                });
+
+                google.maps.event.addListener(map, 'mousemove', function(event){
+                    map.setOptions({draggableCursor: 'pointer'});
+                });
+
+                $( document ).ready(function() {
+                    
+                    $( '#latitude, #longitude' ).keypress(function() {
+                        
+                        let lat = $( '#latitude' ).val();
+                        let lng = $( '#longitude' ).val();
+                        
+                        let latLng = new google.maps.LatLng( lat, lng );
+                        plgMarker.setPosition( latLng );
+                        map.setCenter( latLng );
+
+                    });
+
+                });
+
+            }
+        </script>
+
+        <script type="text/javascript">
+            var idx = <?= count($foto) ?>;
 
             $( document ).ready(function() {
-
-                var idx = <?= count( $foto ) ?>;
 
                 $( '#tambah-foto-btn' ).on('click', function() {
 
@@ -100,10 +158,9 @@
 
             });
 
-            function hapus_foto( nama_foto, el ) {
-
-                $( el ).parent().parent().remove();
-                $( '#deleted-photos' ).append( '<input type="hidden" name="deleted_photos[]" value="' + nama_foto + '" />' );
-
+            function hapusFoto(el) {
+                $(el).parent().remove();
             }
         </script>
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>&callback=initMap"></script>

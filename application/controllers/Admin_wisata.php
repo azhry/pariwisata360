@@ -41,36 +41,38 @@ class Admin_wisata extends MY_Controller {
 		$this->check_allowance( !isset( $this->data['wisata'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
 		$this->data['id_wisata']	= $this->data['wisata']->id_wisata;
 
+		$this->data['foto']			= json_decode($this->data['wisata']->foto);
+
 		if ( $this->POST( 'edit' ) ) {
 
-			$num_img 		= $this->POST( 'num_img' );
-			$deleted_photos	= $this->POST( 'deleted_photos' );
-			$photos 		= json_decode( $this->data['wisata']->foto );
-
-			if ( isset( $deleted_photos ) ) {
-				$photos 		= array_diff( $photos, $deleted_photos );
-				foreach ( $deleted_photos as $deleted ) {
-					@unlink( FCPATH . '/assets/img/wisata/' . $deleted );
+			for ($i = 0; $i < $this->POST('num_img'); $i++)
+			{
+				if (isset($_FILES['berkas' . ($i + 1)]))
+				{
+					if (!empty($_FILES['berkas' . ($i + 1)]['name']))
+					{
+						@unlink(realpath(FCPATH . '/assets/img/wisata/' . $this->data['foto'][$i]));
+						array_splice($this->data['foto'], $i, 1);
+						$img_name = $this->data['id_wisata'] . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+						$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
+						$this->data['foto'] []= $img_name . '.jpg';
+					}
 				}
-			}
-
-			for ( $i = 0; $i < $num_img; $i++ ) {
-
-				if ( !empty( $_FILES['berkas' . ($i + 1)]['name'] ) ) {
-
-					$img_name = $this->data['id_wisata'] . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
-					$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
-					$photos []= $img_name . '.jpg';
-
+				else
+				{
+					if ($i < count($this->data['foto']))
+					{
+						@unlink(realpath(FCPATH . '/assets/img/wisata/' . $this->data['foto'][$i]));
+						array_splice($this->data['foto'], $i, 1);
+					}
 				}
-
 			}
 
 
 			$this->data['wisata']	= [
 				'nama_wisata'	=> $this->POST( 'nama_wisata' ),
 				'deskripsi'		=> $this->POST( 'deskripsi' ),
-				'foto'			=> json_encode( $photos ),
+				'foto'			=> json_encode( $this->data['foto'] ),
 				'latitude'		=> $this->POST( 'latitude' ),
 				'longitude'		=> $this->POST( 'longitude' ),
 				'id_kategori'	=> $this->POST( 'id_kategori' ),

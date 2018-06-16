@@ -236,7 +236,35 @@ class Admin extends MY_Controller {
 		$this->load->model( 'wisata_m' );
 		$this->load->model( 'kategori_wisata_m' );
 
-		if ( $this->POST( 'edit' ) ) {
+		$this->data['wisata']		= $this->wisata_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
+		$this->check_allowance( !isset( $this->data['wisata'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
+
+		$this->data['foto']			= json_decode($this->data['wisata']->foto);
+
+		if ($this->POST('edit')) 
+		{	
+			for ($i = 0; $i < $this->POST('num_img'); $i++)
+			{
+				if (isset($_FILES['berkas' . ($i + 1)]))
+				{
+					if (!empty($_FILES['berkas' . ($i + 1)]['name']))
+					{
+						@unlink(realpath(FCPATH . '/assets/img/wisata/' . $this->data['foto'][$i]));
+						array_splice($this->data['foto'], $i, 1);
+						$img_name = $this->data['id_wisata'] . '_' . pathinfo( $_FILES[ 'berkas' . ($i + 1) ]['name'], PATHINFO_FILENAME );
+						$this->upload( $img_name, '/assets/img/wisata', 'berkas' . ($i + 1) );
+						$this->data['foto'] []= $img_name . '.jpg';
+					}
+				}
+				else
+				{
+					if ($i < count($this->data['foto']))
+					{
+						@unlink(realpath(FCPATH . '/assets/img/wisata/' . $this->data['foto'][$i]));
+						array_splice($this->data['foto'], $i, 1);
+					}
+				}
+			}
 
 			$this->data['wisata']	= [
 				'nama_wisata'	=> $this->POST( 'nama_wisata' ),
@@ -244,18 +272,18 @@ class Admin extends MY_Controller {
 				'latitude'		=> $this->POST( 'latitude' ),
 				'longitude'		=> $this->POST( 'longitude' ),
 				'id_kategori'	=> $this->POST( 'id_kategori' ),
+				'id_admin'		=> $this->POST('id_admin'),
+				'foto'			=> json_encode($this->data['foto']),
 				'updated_at'	=> date( 'Y-m-d H:i:s' )
 			];
 			$this->wisata_m->update( $this->data['id_wisata'], $this->data['wisata'] );
-			$this->upload( $this->data['id_wisata'], '/assets/img/wisata', 'berkas' );
 			$this->flashmsg( '<i class="fa fa-check"></i> Data berhasil di-edit' );
 			redirect( 'admin/edit-wisata/' . $this->data['id_wisata'] );
 			exit;
-
 		}
 
-		$this->data['wisata']		= $this->wisata_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
-		$this->check_allowance( !isset( $this->data['wisata'] ), [ '<i class="fa fa-warning"></i> Data not found', 'danger' ] );
+		$this->load->model('pengguna_m');
+		$this->data['admin_wisata'] 	= $this->pengguna_m->get(['id_hak_akses' => 4]);
 
 		$this->data['data_kategori']	= $this->kategori_wisata_m->get();
 		$this->data['kategori']			= [];

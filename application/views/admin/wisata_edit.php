@@ -35,22 +35,47 @@
 
                             <div class="form-group">
                                 <label for="deskripsi">Deskripsi</label>
-                                <input type="text" value="<?= $wisata->deskripsi ?>" name="deskripsi" class="form-control" required>
+                                <textarea class="form-control" name="deskripsi"><?= $wisata->deskripsi ?></textarea>
+                            </div>
+
+                            <input type="hidden" name="num_img" value="<?= count($foto) ?>" id="num-img">
+                            <button type="button" id="tambah-foto-btn" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Foto</button>
+                            <br><br>
+                            <div id="foto-container">
+                                <?php for ($i = 0; $i < count($foto); $i++): ?>
+                                <div class="form-group">
+                                    <label for="foto">Foto <?= $i + 1 ?></label>
+                                    <button type="button" onclick="hapusFoto(this);" class="btn btn-danger btn-xs"><i class="fa fa-close"></i></button>
+                                    <br><br>
+                                    <img src="<?= base_url('assets/img/wisata/' . $foto[$i]) ?>" width="100" height="100"><br>
+                                    <input type="file" name="berkas<?= $i + 1 ?>" accept="image/*" class="form-control">
+                                    <input type="hidden" name="berkas_idx" value="<?= $i ?>">
+                                </div>
+                                <?php endfor; ?>
                             </div>
 
                             <div class="form-group">
-                                <label for="foto">Foto</label>
-                                <input type="file" accept="image/*" name="berkas">
+                                <label for="koordinat">Pilih Koordinat</label>
+                                <div id="map" style="width: 100%; height: 300px;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" value="<?= $wisata->latitude ?>" name="latitude" class="form-control" required>
+                                <input type="text" value="<?= $wisata->latitude ?>" name="latitude" id="latitude" class="form-control" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
-                                <input type="text" value="<?= $wisata->longitude ?>" name="longitude" class="form-control">
+                                <input id="longitude" type="text" value="<?= $wisata->longitude ?>" name="longitude" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin_wisata">Admin Wisata</label>
+                                <?php  
+                                    $admin = [];
+                                    foreach ($admin_wisata as $row) $admin[$row->id_pengguna] = $row->nama;
+                                    echo form_dropdown('id_admin', $admin, $wisata->id_admin, ['class' => 'form-control']);
+                                ?>
                             </div>
 
                             <input type="submit" name="edit" value="Edit" class="btn btn-primary">
@@ -67,3 +92,79 @@
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
+
+        <script type="text/javascript">
+            var map;
+            function initMap() {
+
+                let plgLat = -2.990934;
+                let plgLng = 104.756554;
+                let plgPos = new google.maps.LatLng( plgLat, plgLng );
+                map = new google.maps.Map(document.getElementById( 'map' ), {
+                    center: plgPos,
+                    zoom: 12
+                });
+
+                document.getElementById( 'latitude' ).value     = plgLat;
+                document.getElementById( 'longitude' ).value    = plgLng;
+
+                let plgMarker = new google.maps.Marker({
+                    position: plgPos,
+                    map: map
+                });
+
+                google.maps.event.addListener(map, 'click', function( event ) {
+
+                    let latLng = new google.maps.LatLng( event.latLng.lat(), event.latLng.lng() );
+                    plgMarker.setPosition( latLng );
+                    document.getElementById( 'latitude' ).value     = event.latLng.lat();
+                    document.getElementById( 'longitude' ).value    = event.latLng.lng();
+
+                });
+
+                google.maps.event.addListener(map, 'mousemove', function(event){
+                    map.setOptions({draggableCursor: 'pointer'});
+                });
+
+                $( document ).ready(function() {
+                    
+                    $( '#latitude, #longitude' ).keypress(function() {
+                        
+                        let lat = $( '#latitude' ).val();
+                        let lng = $( '#longitude' ).val();
+                        
+                        let latLng = new google.maps.LatLng( lat, lng );
+                        plgMarker.setPosition( latLng );
+                        map.setCenter( latLng );
+
+                    });
+
+                });
+
+            }
+        </script>
+
+        <script type="text/javascript">
+            var idx = <?= count($foto) ?>;
+
+            $( document ).ready(function() {
+
+                $( '#tambah-foto-btn' ).on('click', function() {
+
+                    $( '#foto-container' ).append('<div class="form-group">' +
+                        '<label for="foto">Foto ' + (++idx) + '</label>' +
+                        '<input type="file" name="berkas' + idx + '" accept="image/*" class="form-control" required>' +
+                    '</div>');
+
+                    $( '#num-img' ).val( idx );
+
+                });
+
+            });
+
+            function hapusFoto(el) {
+                $(el).parent().remove();
+            }
+        </script>
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>&callback=initMap"></script>
