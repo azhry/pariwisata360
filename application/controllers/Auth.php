@@ -62,7 +62,6 @@ class Auth extends MY_Controller
 			}
 
 			redirect( 'auth' );
-			exit;
 
 		} else if ( $this->POST( 'register' ) ) {
 
@@ -97,7 +96,6 @@ class Auth extends MY_Controller
 			}
 
 			redirect( 'auth' );
-			exit;
 
 		}
 

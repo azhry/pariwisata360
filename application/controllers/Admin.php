@@ -12,11 +12,14 @@ class Admin extends MY_Controller {
 			$this->session->sess_destroy();
 			$this->flashmsg( 'Anda tidak memiliki hak akses untuk halaman tersebut', 'danger' );
 			redirect( 'auth' );
-			exit;
 
 		}
 
 		$this->data['hak_akses']	= $this->session->userdata( 'hak_akses' );
+		if ($this->data['hak_akses'] != 'Admin')
+		{
+			redirect('auth');
+		}
 	}
 
 	public function index() {

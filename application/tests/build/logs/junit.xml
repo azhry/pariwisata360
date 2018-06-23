@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CodeIgniter Application Test Suite" tests="5" assertions="7" failures="0" errors="0" time="0.645631">
+    <testsuite name="Admin_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Admin_test.php" fullPackage="Admin" tests="4" assertions="6" failures="0" errors="0" time="0.466470">
+      <testcase name="test_index" class="Admin_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Admin_test.php" line="11" assertions="2" time="0.094711"/>
+      <testcase name="test_logged_in" class="Admin_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Admin_test.php" line="17" assertions="1" time="0.240122"/>
+      <testcase name="test_logged_in_not_admin" class="Admin_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Admin_test.php" line="24" assertions="2" time="0.065789"/>
+      <testcase name="test_404" class="Admin_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Admin_test.php" line="31" assertions="1" time="0.065848"/>
+    </testsuite>
+    <testsuite name="Wisata_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Wisata_test.php" fullPackage="Wisata" tests="1" assertions="1" failures="0" errors="0" time="0.179161">
+      <testcase name="test_index" class="Wisata_test" file="C:\xampp\htdocs\pariwisata\application\tests\controllers\Wisata_test.php" line="5" assertions="1" time="0.179161"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
