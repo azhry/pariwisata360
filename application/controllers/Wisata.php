@@ -12,9 +12,12 @@ class Wisata extends MY_Controller {
 	public function index() {
 
 		$this->load->model( 'event_m' );
-		$this->data['event']	= $this->event_m->get_by_order( 'created_at', 'DESC' );
-		$this->data['title']	= 'Tempat Wisata';
-		$this->data['content']	= 'wisata/home';
+		$this->load->model( 'rating_wisata_m' );
+		$this->load->model( 'komentar_wisata_m' );
+		$this->data['event']			= $this->event_m->get_by_order( 'created_at', 'DESC' );
+		$this->data['komentar_wisata']	= $this->komentar_wisata_m->get_all_komentar();
+		$this->data['title']			= 'Tempat Wisata';
+		$this->data['content']			= 'wisata/home';
 		$this->template( $this->data, 'wisata' );
 
 	}

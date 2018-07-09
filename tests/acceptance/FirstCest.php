@@ -15,6 +15,6 @@ class FirstCest
         $I->fillField('email', 'arliansyah_azhary@yahoo.com');
         $I->fillField('password', '12345');
         $I->click(['name' => 'login']);
-        $I->see('Dashboardd');
+        $I->see('Dashboard');
     }
 }

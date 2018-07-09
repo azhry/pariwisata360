@@ -22,4 +22,14 @@ class Komentar_wisata_m extends MY_Model {
 
 	}
 
+	public function get_all_komentar() {
+
+		$this->db->select( '*' );
+		$this->db->from( $this->data['table_name'] );
+		$this->db->join( 'pengguna', $this->data['table_name'] . '.id_pengguna = pengguna.id_pengguna' );
+		$query = $this->db->get();
+		return $query->result();
+
+	}
+
 }
