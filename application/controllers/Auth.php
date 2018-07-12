@@ -25,6 +25,9 @@ class Auth extends MY_Controller
 					redirect( 'wisata' );
 					break;
 
+				case 'Kepala Dinas':
+					redirect( 'kepala-dinas' );
+					break;
 			}
 
 		}

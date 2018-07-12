@@ -11,4 +11,14 @@ class Rating_wisata_m extends MY_Model {
 
 	}
 
+	public function getAvgRating($id_wisata)
+	{
+		$this->db->select('AVG(rating) AS rating')
+			->from($this->data['table_name'])
+			->where(['id_wisata' => $id_wisata])
+			->group_by('id_wisata');
+		$query = $this->db->get();
+		return $query->row();
+	}
+
 }
