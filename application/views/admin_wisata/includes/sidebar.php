@@ -19,6 +19,9 @@
                     <li>
                         <a href="<?= base_url( 'admin-wisata/pertanyaan-kuesioner' ) ?>" class="waves-effect"><i class="fa fa-list-ol fa-fw" aria-hidden="true"></i>Data Kuesioner</a>
                     </li>
+                    <li>
+                        <a href="<?= base_url( 'admin-wisata/rating-komentar' ) ?>" class="waves-effect"><i class="fa fa-star-o fa-fw" aria-hidden="true"></i>Rating dan Komentar</a>
+                    </li>
                 </ul>
             </div>
         </div>

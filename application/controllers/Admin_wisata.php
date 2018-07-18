@@ -367,4 +367,30 @@ class Admin_wisata extends MY_Controller {
 		$this->template( $this->data, 'admin_wisata' );
 	}
 
+	public function rating_komentar()
+	{
+		$this->load->model('wisata_m');
+		$this->data['wisata']		= $this->wisata_m->get_row([ 'id_admin' => $this->data['id_pengguna'] ]);
+		$this->data['id_wisata']	= $this->data['wisata']->id_wisata;
+		$this->check_allowance( !isset( $this->data['id_wisata'] ) );
+
+		$this->load->model('wisata_m');
+		$this->data['wisata']	= $this->wisata_m->get_row([ 'id_wisata' => $this->data['id_wisata'] ]);
+		$this->check_allowance( !isset( $this->data['wisata'] ) );
+
+		$this->load->model('komentar_wisata_m');
+		$this->load->model('kuesioner_m');
+		$this->load->model('kuesioner_jawaban_pengguna_m');
+		$this->load->model('kuesioner_pertanyaan_kategori_m');
+		$this->load->model('rating_wisata_m');
+
+		$this->data['rating']		= $this->rating_wisata_m->getAvgRating($this->data['id_wisata']);
+		$this->data['kuesioner']	= $this->kuesioner_m->get([ 'id_wisata' => $this->data['id_wisata'] ]);
+		$this->data['kategori'] 	= $this->kuesioner_pertanyaan_kategori_m->get();
+		$this->data['komentar']		= $this->komentar_wisata_m->get(['id_wisata' => $this->data['id_wisata']]);
+		$this->data['title']		= 'Detail Wisata';
+		$this->data['content']		= 'admin_wisata/rating_komentar';
+		$this->template($this->data, 'admin_wisata');
+	}
+
 }
