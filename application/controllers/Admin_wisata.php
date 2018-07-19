@@ -388,6 +388,7 @@ class Admin_wisata extends MY_Controller {
 		$this->data['kuesioner']	= $this->kuesioner_m->get([ 'id_wisata' => $this->data['id_wisata'] ]);
 		$this->data['kategori'] 	= $this->kuesioner_pertanyaan_kategori_m->get();
 		$this->data['komentar']		= $this->komentar_wisata_m->get(['id_wisata' => $this->data['id_wisata']]);
+		$this->data['data']			= $this->wisata_m->get_komentar_rating($this->data['id_wisata']);
 		$this->data['title']		= 'Detail Wisata';
 		$this->data['content']		= 'admin_wisata/rating_komentar';
 		$this->template($this->data, 'admin_wisata');

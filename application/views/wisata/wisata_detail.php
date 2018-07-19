@@ -1,15 +1,14 @@
 	<!-- Slide1 -->
 	<section class="section-slide">
-		<div class="wrap-slick1">
-			<div class="slick1">
-				<?php for ( $i = 0; $i < count( $foto ); $i++ ): ?>
-				<div class="item-slick1 item1-slick1" id="container-<?= $i ?>">
-				</div>
-				<?php endfor; ?>
-			</div>
-
-			<div class="wrap-slick1-dots"></div>
+		<?php for ( $i = 0; $i < count( $foto ); $i++ ): ?>
+		<div id="container-<?= $i ?>">
 		</div>
+		<?php endfor; ?>
+		<center>
+			<?php for ( $i = 0; $i < count( $foto ); $i++ ): ?>
+				<img onclick="displayViewer(<?= $i ?>);" src="<?= base_url('assets//img/wisata/' . $foto[$i]) ?>" id="viewer-img-<?= $i ?>" class="img-thumbnail" style="width: 100px !important; height: 100px !important;">
+			<?php endfor; ?>
+		</center>
 	</section>
 
 	<!-- Our Story -->
@@ -206,17 +205,30 @@
 
 		}
 
+		var PSV = [];
+		var img = [];
 		<?php $i = 0; foreach ( $foto as $row ): ?>
-			let PSV<?= $i ?> = new PhotoSphereViewer({
-				panorama: '<?= base_url( 'assets/img/wisata/' . $row ) ?>',
-				container: document.getElementById( 'container-<?= $i++ ?>' ),
-				time_anim: 3000,
-				navbar: true,
-				navbar_style: {
-					backgroundColor: 'rgba(58, 67, 77, 0.7)'
-				}
+			img.push('<?= base_url( 'assets/img/wisata/' . $row ) ?>');
+			$('#container-<?= $i ?>').ready(function() {
+				PSV.push(new PhotoSphereViewer({
+					panorama: '<?= base_url( 'assets/img/wisata/' . $row ) ?>',
+					container: document.getElementById('container-<?= $i ?>'),
+					time_anim: 3000,
+					navbar: true,
+					navbar_style: {
+						backgroundColor: 'rgba(58, 67, 77, 0.7)'
+					},
+					size: {
+						width: '100%',
+						height: 650
+					}
+				}));
+				<?php if ($i > 0): ?>
+					$('#container-<?= $i ?>').css('display', 'none');
+				<?php endif; ?>
 			});
-		<?php endforeach; ?>
+			
+		<?php $i++; endforeach; ?>
 
 		$(document).ready(function() {
 			var $star_rating = $('#display-rating .fa');
@@ -265,6 +277,28 @@
 			
 		});
 
+		function displayViewer(idx) {
+			<?php for($i = 0; $i < count($foto); $i++): ?>
+				$('#container-<?= $i ?>').css('display', 'none');
+			<?php endfor; ?>
+			var div = document.createElement('div');
+			$('#container-' + idx).css('display', 'block').html('');
+			$(div).appendTo('#container-' + idx);
+			var viewer = new PhotoSphereViewer({
+				panorama: img[idx],
+				container: div,
+				time_anim: 3000,
+				navbar: true,
+				navbar_style: {
+					backgroundColor: 'rgba(58, 67, 77, 0.7)'
+				},
+				size: {
+					width: '100%',
+					height: 650
+				}
+			});
+
+		}
 	</script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>&callback=initMap"></script>
